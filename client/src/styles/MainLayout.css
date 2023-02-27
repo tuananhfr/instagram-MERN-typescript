@@ -1,0 +1,10 @@
+.main-layout-container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+@media (max-width: 426px) {
+  .main-layout-container {
+    flex-direction: column;
+  }
+}
