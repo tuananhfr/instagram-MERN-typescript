@@ -144,6 +144,8 @@ const updateUser = asyncHandler(
         website,
         gender,
       } = req.body;
+      const user_name = await User.findOne({ username: username });
+      if (user_name) throw new Error("This user name already exists.");
       const updateUser = await User.findOneAndUpdate(
         { _id: req.user!._id },
         {
@@ -155,7 +157,8 @@ const updateUser = asyncHandler(
           story,
           website,
           gender,
-        }
+        },
+        { new: true }
       );
 
       res.json(updateUser);

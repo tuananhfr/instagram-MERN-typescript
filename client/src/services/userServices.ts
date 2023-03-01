@@ -10,7 +10,7 @@ const search = async (search: string) => {
   return response.data;
 };
 const getUser = async (username: string) => {
-  const response = await axios.get(`${BASE_URL}/user/${username}`, config);
+  const response = await axios.get(`${BASE_URL}/user/${username}`, config());
 
   return response.data;
 };

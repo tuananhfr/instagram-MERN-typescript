@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel";
 import { IReqAuth } from "../config/interface";
-import validateMongoDbId from "../utils/validateMongoDbId";
 
 const searchUser = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {

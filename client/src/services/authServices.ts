@@ -38,7 +38,7 @@ const logout = async () => {
   window.location.href = "/";
 };
 const editUser = async (user: UserEdit) => {
-  const response = await axios.put(`${BASE_URL}/auth`, user, config);
+  const response = await axios.put(`${BASE_URL}/auth`, user, config());
 
   return response.data;
 };

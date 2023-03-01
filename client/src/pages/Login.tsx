@@ -11,7 +11,6 @@ import logo from "../images/logo.png";
 import appStore from "../images/app-store.png";
 import googlePlay from "../images/google-play.png";
 import Helmet from "../components/Helmet";
-import { getUser } from "../redux/features/userSlice";
 
 let schema = yup.object().shape({
   email: yup

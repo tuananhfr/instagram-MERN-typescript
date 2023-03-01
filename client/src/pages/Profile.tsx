@@ -6,48 +6,27 @@ import { FiHeart } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { getUser, resetState } from "../redux/features/userSlice";
-import useIsMount from "../hooks/useIsMount";
+
 import EditProfile from "../components/EditProfile";
 import Infor from "../components/Infor";
 import Helmet from "../components/Helmet";
-// interface User {
-//   fullname: string;
-//   username: string;
-//   email: string;
-//   password: string;
-//   avatar: string;
-//   mobile: string;
-//   gender: string;
-//   role: string;
-//   address: string;
-//   story: string;
-//   website: string;
-//   followers: Array<User>;
-//   following: Array<User>;
-//   saved: Array<User>;
-//   refreshToken: string;
-// }
 
 const Profile: React.FC = () => {
   const { username } = useParams() as {
     username: string;
   };
-  // const location = useLocation();
-  // console.log(location);
-  // const getUsername = location.pathname.split("/")[1];
-
   const [onEdit, setOnEdit] = useState<boolean>(false);
 
   const { auth } = useSelector((state: RootState) => state);
   const { user } = useSelector((state: RootState) => state);
   const dispatch: AppDispatch = useDispatch();
-  // useEffect(() => {
-  //   if (getUsername !== undefined) {
-  //     dispatch(getUser(getUsername));
-  //   } else {
-  //     dispatch(resetState());
-  //   }
-  // }, [dispatch, getUsername]);
+  useEffect(() => {
+    if (username === undefined) {
+      dispatch(getUser(auth.user!.username));
+    } else {
+      dispatch(getUser(username));
+    }
+  }, [auth.user, dispatch, username]);
 
   return (
     <Helmet title="Instagram">

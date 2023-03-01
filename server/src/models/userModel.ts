@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
+
       default:
         "https://res.cloudinary.com/dd52rye04/image/upload/v1677069017/MERN-Instagram-typescript/avatar-default_c3rprd.jpg",
     },

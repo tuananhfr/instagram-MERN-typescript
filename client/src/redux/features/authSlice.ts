@@ -91,7 +91,7 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
 export const editUser = createAsyncThunk(
-  "user/edit-user",
+  "auth/edit-user",
   async (userData: UserEdit, thunkAPI) => {
     try {
       return await authService.editUser(userData);

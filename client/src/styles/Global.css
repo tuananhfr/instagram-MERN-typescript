@@ -48,6 +48,10 @@ button {
   display: flex;
   align-items: center;
 }
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
 .cur-point {
   cursor: pointer;
 }
