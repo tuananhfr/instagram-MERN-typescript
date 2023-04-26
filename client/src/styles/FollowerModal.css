@@ -1,0 +1,66 @@
+.follower-modal-wrapper {
+  height: 25rem;
+  width: 20rem;
+  background-color: white;
+  border-radius: 10px;
+}
+.follower-modal-header {
+  height: 2.5rem;
+  border-bottom: 1.5px solid #dbdbdb;
+  position: relative;
+}
+.follower-modal-title {
+  font-weight: 600;
+  line-height: 20px;
+}
+.follower-modal-icon {
+  background-color: white;
+  position: absolute;
+  right: 0.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+.follower-modal-icon svg {
+  height: 100%;
+  width: 100%;
+}
+.follower-modal-body {
+  height: calc(100% - 2.5rem);
+  overflow-y: scroll;
+}
+.follower-modal-user {
+  position: relative;
+  margin: 0.5rem 1rem;
+}
+.follower-modal-user-info {
+  display: flex;
+}
+.follower-modal-user-avatar {
+  margin-right: 0.5rem;
+  height: 2.75rem;
+  width: 2.75rem;
+}
+.follower-modal-user-avatar img {
+  height: 100%;
+  width: 100%;
+  border: 50%;
+}
+
+.follower-modal-user-username {
+  align-items: center;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  justify-content: flex-start;
+  line-height: 18px;
+  color: black;
+}
+
+.follower-modal-user-username:active {
+  color: rgb(186, 186, 186);
+}
+.follower-modal-user-fullname {
+  color: #737373;
+  font-size: 14px;
+  line-height: 18px;
+}

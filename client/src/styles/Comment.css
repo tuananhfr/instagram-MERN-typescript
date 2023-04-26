@@ -1,0 +1,54 @@
+.comment-wrapper-reply .comment-btn-settings {
+  visibility: hidden;
+}
+
+.comment-wrapper-reply:hover .comment-btn-settings {
+  visibility: visible;
+}
+.comment-icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.comment-btn-reply {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;
+  color: var(--secondary-text);
+  background-color: white;
+}
+.comment-emoji-table {
+  position: absolute;
+  right: 1rem;
+  top: 2rem;
+  z-index: 3;
+}
+
+.comment-btn-cancel {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;
+  color: #3477f6;
+  background-color: white;
+}
+
+.comment-btn-cancel:hover {
+  text-decoration: underline;
+}
+
+.comment-horizontal-line {
+  border-bottom: 1px solid #8e8e8e;
+  width: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.comment-hide-reply {
+  color: #8e8e8e;
+  margin-left: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+  text-align: center;
+  cursor: pointer;
+}

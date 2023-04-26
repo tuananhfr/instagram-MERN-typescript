@@ -1,0 +1,231 @@
+.login-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 3rem;
+  background-color: #ffffff;
+}
+
+.main-login-page {
+  width: 100%;
+  max-width: 58.5rem;
+  margin: 1.8rem auto 0;
+}
+
+.login-page > .main-login-page {
+  display: flex;
+  padding: 0 0rem;
+}
+
+.phone-app-demo {
+  height: 38rem;
+  background: url("../images/mobile-app.png") center no-repeat;
+  flex: 1;
+}
+
+.form-data-login {
+  width: 100%;
+  max-width: 22rem;
+  margin-top: 1.8rem;
+}
+
+.form-data-login form {
+  background-color: #fff;
+  border: 2px solid #eee;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 2.5rem;
+  text-align: center;
+}
+
+.logo img {
+  width: 12rem;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.form-data-login form input {
+  height: 2.4rem;
+
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #dbdbdb;
+  border-radius: 0.2rem;
+}
+
+input {
+  background-color: #fafafa;
+  outline-color: #dbdbdb;
+}
+.pass {
+  position: relative;
+  width: 100%;
+}
+.input-password {
+  width: 100%;
+}
+h6 {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0.5rem;
+  color: #262626;
+}
+h6:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+.form-btn {
+  margin: 0.4rem 0 1rem;
+  height: 2rem;
+  background-color: #4db5f9;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.active-btn {
+  background-color: #3696f9;
+}
+
+.active-btn:hover {
+  background-color: #1877f2;
+}
+.active-btn button {
+  background-color: #3696f9;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.active-btn:hover button {
+  background-color: #1877f2;
+}
+
+.has-separator {
+  font-size: 0.8rem;
+  color: #999999;
+  text-transform: uppercase;
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.has-separator::before,
+.has-separator::after {
+  content: "";
+  position: absolute;
+  background-color: #eee;
+  width: 40%;
+  height: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.has-separator::before {
+  left: 0;
+}
+
+.has-separator::after {
+  right: 0;
+}
+
+.facebook-login {
+  display: flex;
+  position: relative;
+  margin-bottom: 1rem;
+}
+.facebook-login span {
+  position: absolute;
+  left: 1.8rem;
+  bottom: 0;
+  font-size: 1.3rem;
+  margin-right: 0.5rem;
+}
+.facebook-login button {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #385185;
+}
+.password-reset {
+  font-size: 0.8rem;
+  color: #003569;
+}
+
+.sign-up {
+  text-align: center;
+  font-size: 1rem;
+  color: #262626;
+  padding: 1.5rem 0;
+  background-color: #fff;
+  border: 2px solid #eee;
+  margin: 1rem 0;
+}
+
+.sign-up-btn {
+  color: #3897f0;
+  font-weight: 600;
+}
+
+.get-the-app {
+  font-size: 1rem;
+  text-align: center;
+}
+
+.get-the-app span {
+  display: block;
+  margin: 1rem 0;
+  color: #262626;
+}
+
+.badges {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.badges img {
+  max-width: 8rem;
+  cursor: pointer;
+}
+
+.badges img:first-child {
+  margin-right: 1rem;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 900px) {
+  .phone-app-demo {
+    display: none;
+  }
+
+  .form-data-login {
+    width: 80vw;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 450px) {
+  .form-data-login form {
+    width: 80vw;
+
+    background-color: transparent;
+    border: none;
+    padding: 0 2rem;
+  }
+
+  .sign-up {
+    background-color: transparent;
+    border: none;
+    margin: 4rem 0;
+  }
+}

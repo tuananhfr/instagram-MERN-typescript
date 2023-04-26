@@ -1,0 +1,67 @@
+.post-btn {
+  color: var(--primary-btn-bg);
+  background-color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3rem;
+}
+.post-btn:hover {
+  color: black;
+}
+/* -------- swiper ---------- */
+.swiper {
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 1.2rem;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+/* -------- end swiper ---------- */
+
+.length-content {
+  position: absolute;
+  right: 0;
+  color: #c7c7c7;
+}
+
+.stream span {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+
+  font-size: 1.5rem;
+  font-weight: 900;
+  cursor: pointer;
+  z-index: 3;
+}
+.stream-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  color: black;
+}
+.number-img-stream {
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0 1rem 0.1rem;
+  color: red;
+  left: 2.2rem;
+  top: 0rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}

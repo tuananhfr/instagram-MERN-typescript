@@ -1,0 +1,8 @@
+.explore-page-container {
+  /* width: calc(100% - 245px);
+    margin-left: auto; */
+  max-width: 62rem;
+  width: 100%;
+  height: 100vh;
+  margin: 1rem 0rem 0 40rem;
+}

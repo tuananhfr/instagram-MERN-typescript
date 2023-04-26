@@ -1,0 +1,99 @@
+/* Register */
+
+.register-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background-color: #ffffff;
+}
+
+.main-register-page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 58.5rem;
+  margin: 0 auto;
+}
+
+.form-data-register {
+  width: 100%;
+  max-width: 22rem;
+  margin-top: 0.5rem;
+}
+
+.form-data-register form {
+  background-color: #fff;
+  border: 2px solid #eee;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 2.5rem;
+  text-align: center;
+}
+
+.form-data-register form input {
+  height: 2.4rem;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #dbdbdb;
+  border-radius: 0.2rem;
+}
+.form-data-register form div input {
+  height: 2.4rem;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #dbdbdb;
+  border-radius: 0.2rem;
+}
+.form-data-register-password {
+  height: 2.4rem;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #dbdbdb;
+  border-radius: 0.2rem;
+}
+.register-text {
+  margin-bottom: 1rem;
+  color: #8e8e8e;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .form-data-register {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 450px) {
+  .form-data-register form {
+    background-color: transparent;
+    border: none;
+    padding: 0 2rem;
+  }
+}
+/* Register FaceBook*/
+.register-fb-page {
+  width: 100%;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.register-fb-avatar {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1rem;
+}
+.register-fb-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}

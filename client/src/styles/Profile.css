@@ -1,0 +1,253 @@
+.profile-page-container {
+  /* width: calc(100% - 245px);
+  margin-left: auto; */
+  max-width: 62rem;
+  width: 100%;
+  height: 100vh;
+  margin: 3rem calc((100vw - 62rem) / 2) 3rem calc((100vw - 62rem) / 2 + 8vw);
+}
+.profile-details-section {
+  display: flex;
+  margin-left: 6rem;
+  margin-bottom: 3rem;
+  flex-direction: column;
+}
+.profile-image-wrapper {
+  width: 9rem;
+  height: 9rem;
+  margin-right: 6rem;
+
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+.profile-image-wrapper img {
+  width: 100%;
+  height: 100%;
+}
+.change-avatar-btn {
+  height: 1rem;
+  background-color: white;
+  color: #0095f6;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+.change-avatar-btn:hover {
+  color: black;
+}
+.follow-btn {
+  height: 2rem;
+  width: 5rem;
+  background-color: #3696f9;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+.follow-btn:hover {
+  background-color: #3578e5;
+}
+.unfollow-btn {
+  height: 2rem;
+  width: 5rem;
+  background-color: #ececec;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: black;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+.unfollow-btn:hover {
+  background-color: #dbdbdb;
+}
+
+.edit-profile-btn {
+  height: 2rem;
+  width: 6.25rem;
+  background-color: #efefef;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: black;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+.edit-profile-btn:hover {
+  background-color: #dbdbdb;
+}
+
+.posts-followers-details-wrapper {
+  margin: 20px 0;
+}
+.total-wrapper {
+  background-color: white;
+  margin-right: 40px;
+}
+
+.profile-btn-active:active {
+  color: rgb(186, 186, 186);
+}
+
+.total-number {
+  padding-right: 5px;
+}
+.font-w-500 {
+  font-weight: 500;
+}
+.profile-fullname-wrapper {
+  color: #262626;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.1rem;
+}
+.profile-website-wrapper:hover {
+  text-decoration: underline;
+}
+.profile-website-wrapper {
+  color: #00376b !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1rem;
+}
+.posts-list-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border-top: 1px solid var(--border-color);
+}
+
+.posts-list-title {
+  padding-top: 0.8rem;
+  cursor: pointer;
+  margin-right: 4rem;
+}
+.posts-list-title-active {
+  padding-top: 0.8rem;
+  border-top: 1px solid black;
+  cursor: pointer;
+  margin-right: 4rem;
+}
+.post-list-title-span-active {
+  color: #262626;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  line-height: 1.1rem;
+  margin: 0px 0px 0px 0.4rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+.post-list-title-span {
+  color: #8e8e8e;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  line-height: 1.1rem;
+  margin: 0px 0px 0px 0.4rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.posts-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.mobile-screen {
+  display: none;
+}
+.explore-post-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  margin: 0.1rem;
+  width: 309px;
+  height: 309px;
+
+  position: relative;
+}
+.explore-post-image {
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+}
+.explore-post-image img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+.like-comments-wrapper {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--secondary-bg);
+  font-weight: 700;
+  border-radius: inherit;
+}
+.like-wrapper,
+.comments-wrapper {
+  margin: 0 5px;
+}
+.like-icon,
+.comments-icon,
+.share-icon,
+.smile-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+.explore-post-container:hover .like-comments-wrapper {
+  display: flex;
+}
+
+/* -------------- Profile Edit ------------ */
+
+.edit_profile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #0008;
+  z-index: 9;
+  overflow: auto;
+}
+
+.edit_profile .btn_close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #777;
+}
+.info_avatar {
+  width: 4rem;
+  height: 4rem;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+.info_avatar img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.info_avatar #file_up {
+  display: none;
+}
+::-webkit-file-upload-button {
+  cursor: pointer;
+}
