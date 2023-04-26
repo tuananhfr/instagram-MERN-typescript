@@ -78,6 +78,7 @@ const CreatePost: React.FC = () => {
 
         // socket.data!.emit("createComment", newComment);
       });
+      handleStopStream();
       dispatch(setIsUploadGlobalState());
       formik.resetForm();
       setImages([]);

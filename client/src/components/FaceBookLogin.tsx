@@ -46,7 +46,7 @@ const FaceBookLogin: React.FC<FaceBookLoginProps> = ({ title }) => {
         authorizationUrl="https://www.facebook.com/dialog/oauth"
         responseType="token"
         clientId="195939199893325"
-        redirectUri="http://localhost:3000/login"
+        redirectUri="https://instagram-mern-typescript.vercel.app/login"
         onSuccess={onSuccess}
         onFailure={onFailure}
       />

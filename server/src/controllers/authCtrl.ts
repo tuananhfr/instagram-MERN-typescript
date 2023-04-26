@@ -223,7 +223,7 @@ const forgotPasswordToken = asyncHandler(
     if (!user) res.status(400).json({ msg: "User not found with this email" });
     try {
       const resetUrl = `Hi ${user!.username},<br>
-      Sorry to hear you’re having trouble logging into Instagram. We got a message that you forgot your password. If this was you, you can get right back into your account or reset your password now. <a href="http://localhost:3000/reset-password/${
+      Sorry to hear you’re having trouble logging into Instagram. We got a message that you forgot your password. If this was you, you can get right back into your account or reset your password now. <a href="https://instagram-mern-typescript.vercel.app/reset-password/${
         user!.refreshToken
       }">Log in as ${user!.username}</a>`;
       const data = {
