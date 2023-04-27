@@ -16,13 +16,14 @@ import { IInfoProfile } from "../../utils/interface";
 
 const InfoProfile: React.FC<IInfoProfile> = ({ username }) => {
   const [onEdit, setOnEdit] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { auth } = useSelector((state: RootState) => state);
   const { user } = useSelector((state: RootState) => state);
   const { message } = user;
 
   useEffect(() => {
+    setIsLoading(true);
     if (
       message === "user/get-a-user success" ||
       auth.user!.username === username
