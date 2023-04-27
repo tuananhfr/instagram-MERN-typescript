@@ -115,7 +115,7 @@ const loginUser = asyncHandler(
         );
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          secure: false,
+          secure: true,
           path: "/",
 
           maxAge: 72 * 60 * 60 * 1000,

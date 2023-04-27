@@ -64,6 +64,11 @@ const RegisterFaceBook = () => {
       navigate("");
     }
   }, [user, navigate]);
+  useEffect(() => {
+    if (infoFaceBook === null) {
+      navigate("/login");
+    }
+  }, [infoFaceBook, navigate]);
   return (
     <Helmet title="Sign up • FaceBook • Instagram">
       <div className="register-fb-page">
