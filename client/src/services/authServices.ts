@@ -54,9 +54,7 @@ const refreshToken = async () => {
 const logout = async () => {
   localStorage.removeItem("user");
 
-  await axios.post(`${BASE_URL}/auth/logout`, config(), {
-    withCredentials: false,
-  });
+  await axios.post(`${BASE_URL}/auth/logout`, config());
 
   window.location.href = "/";
 };
