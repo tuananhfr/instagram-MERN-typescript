@@ -117,6 +117,7 @@ const loginUser = asyncHandler(
           httpOnly: true,
           secure: true,
           path: "/",
+          sameSite: "strict",
 
           maxAge: 72 * 60 * 60 * 1000,
         });
