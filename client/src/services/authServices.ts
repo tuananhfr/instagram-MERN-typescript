@@ -10,7 +10,7 @@ import {
   UserLoginFaceBook,
   UserRegister,
 } from "../utils/interface";
-axios.defaults.withCredentials = true;
+
 const register = async (user: UserRegister) => {
   const response = await axios.post(`${BASE_URL}/auth/register`, user);
   if (response.data) {
@@ -20,7 +20,9 @@ const register = async (user: UserRegister) => {
 };
 
 const login = async (user: UserLogin) => {
-  const response = await axios.post(`${BASE_URL}/auth/login`, user);
+  const response = await axios.post(`${BASE_URL}/auth/login`, user, {
+    withCredentials: true,
+  });
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
