@@ -137,7 +137,12 @@ const CreatePost: React.FC = () => {
     newArr.splice(index, 1);
     setImages(newArr);
   };
-
+  const handleCloseModal = () => {
+    dispatch(setIsUploadGlobalState());
+    handleStopStream();
+    formik.resetForm();
+    setImages([]);
+  };
   return (
     <>
       {isUploadGlobalState && (
@@ -145,7 +150,7 @@ const CreatePost: React.FC = () => {
           <button
             title="close"
             className="btn_close"
-            onClick={() => dispatch(setIsUploadGlobalState())}
+            onClick={handleCloseModal}
           >
             <AiOutlineClose
               style={{
