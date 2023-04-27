@@ -287,7 +287,6 @@ export const authSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error.message ?? "An error occurred.";
         state.isLoading = false;
-        console.log(state.message);
       })
       .addCase(editUser.pending, (state) => {
         state.isLoading = true;

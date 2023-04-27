@@ -45,7 +45,8 @@ const registerUser = asyncHandler(
         );
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-
+          secure: true,
+          sameSite: "strict",
           maxAge: 72 * 60 * 60 * 1000,
         });
         res.json(updateuser);
