@@ -92,8 +92,12 @@ export const refreshToken = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk("auth/logout", async () => {
-  await authService.logout();
+export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+  try {
+    return await authService.logout();
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
 });
 export const editUser = createAsyncThunk(
   "auth/edit-user",
@@ -268,13 +272,22 @@ export const authSlice = createSlice({
 
         state.isLoading = false;
       })
-
+      .addCase(logout.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(logout.fulfilled, (state) => {
         state.isError = false;
         state.isLoading = false;
         state.isSuccess = true;
         state.user = null;
         state.message = "success";
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error.message ?? "An error occurred.";
+        state.isLoading = false;
+        console.log(state.message);
       })
       .addCase(editUser.pending, (state) => {
         state.isLoading = true;
