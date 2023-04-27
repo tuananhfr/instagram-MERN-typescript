@@ -90,7 +90,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.data = action.payload;
-        state.message = "success";
+        state.message = "user/get-a-user success";
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isError = true;

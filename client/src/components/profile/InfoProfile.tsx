@@ -23,10 +23,13 @@ const InfoProfile: React.FC<IInfoProfile> = ({ username }) => {
   const { message } = user;
 
   useEffect(() => {
-    if (message === "success" || auth.user!.username === username) {
+    if (
+      message === "user/get-a-user success" ||
+      auth.user!.username === username
+    ) {
       setIsLoading(false);
     }
-  }, [message]);
+  }, [auth.user, message, username]);
 
   const dispatch: AppDispatch = useDispatch();
 
