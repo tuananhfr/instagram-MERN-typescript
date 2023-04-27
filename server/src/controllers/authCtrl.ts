@@ -116,8 +116,6 @@ const loginUser = asyncHandler(
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: true,
-          path: "/",
-          sameSite: "strict",
 
           maxAge: 72 * 60 * 60 * 1000,
         });
@@ -161,7 +159,9 @@ const handleRefreshToken = asyncHandler(
 const logout = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     try {
-      res.clearCookie("refreshToken");
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+      });
       res.json({ msg: "Logged out!" });
     } catch (err: any) {
       throw new Error(err);
