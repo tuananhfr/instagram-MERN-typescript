@@ -30,6 +30,7 @@ const RegisterFaceBook = () => {
       username: "",
       password: "",
       faceBookId: infoFaceBook.data!.id,
+      avatar: infoFaceBook.data!.picture.data.url,
     },
     validationSchema: schema,
     onSubmit: (values) => {

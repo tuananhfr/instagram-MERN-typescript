@@ -32,6 +32,7 @@ export interface UserRegister {
   username: string;
   fullname: string;
   faceBookId?: string;
+  avatar?: string;
 }
 
 export interface AuthState {
