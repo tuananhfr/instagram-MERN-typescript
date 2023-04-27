@@ -45,7 +45,6 @@ const registerUser = asyncHandler(
         );
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          path: "/api/refresh",
 
           maxAge: 72 * 60 * 60 * 1000,
         });
@@ -83,7 +82,6 @@ const loginFacebookUser = asyncHandler(
         );
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          path: "/api/refresh",
 
           maxAge: 72 * 60 * 60 * 1000,
         });
@@ -119,8 +117,6 @@ const loginUser = asyncHandler(
         );
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-
-          path: "/api/refresh",
 
           maxAge: 72 * 60 * 60 * 1000,
         });
@@ -164,7 +160,7 @@ const handleRefreshToken = asyncHandler(
 const logout = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     try {
-      res.clearCookie("refreshToken", { path: "/api/refresh" });
+      res.clearCookie("refreshToken");
       res.json({ msg: "Logged out!" });
     } catch (err: any) {
       throw new Error(err);
