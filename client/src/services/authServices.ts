@@ -12,7 +12,9 @@ import {
 } from "../utils/interface";
 
 const register = async (user: UserRegister) => {
-  const response = await axios.post(`${BASE_URL}/auth/register`, user);
+  const response = await axios.post(`${BASE_URL}/auth/register`, user, {
+    withCredentials: true,
+  });
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
@@ -31,7 +33,9 @@ const login = async (user: UserLogin) => {
 };
 
 const loginFacebookUser = async (data: UserLoginFaceBook) => {
-  const response = await axios.post(`${BASE_URL}/auth/login-facebook`, data);
+  const response = await axios.post(`${BASE_URL}/auth/login-facebook`, data, {
+    withCredentials: true,
+  });
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
@@ -56,7 +60,9 @@ const refreshToken = async () => {
 const logout = async () => {
   localStorage.removeItem("user");
 
-  await axios.post(`${BASE_URL}/auth/logout`, config());
+  await axios.post(`${BASE_URL}/auth/logout`, config(), {
+    withCredentials: true,
+  });
 
   window.location.href = "/";
 };
