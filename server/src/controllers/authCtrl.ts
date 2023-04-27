@@ -45,6 +45,8 @@ const registerUser = asyncHandler(
         );
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
+          path: "/api/refresh",
+
           maxAge: 72 * 60 * 60 * 1000,
         });
         res.json(updateuser);
@@ -81,6 +83,8 @@ const loginFacebookUser = asyncHandler(
         );
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
+          path: "/api/refresh",
+
           maxAge: 72 * 60 * 60 * 1000,
         });
         res.json(updateuser);
@@ -115,6 +119,8 @@ const loginUser = asyncHandler(
         );
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
+
+          path: "/api/refresh",
 
           maxAge: 72 * 60 * 60 * 1000,
         });
@@ -158,9 +164,7 @@ const handleRefreshToken = asyncHandler(
 const logout = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     try {
-      res.clearCookie("refreshToken", {
-        httpOnly: true,
-      });
+      res.clearCookie("refreshToken", { path: "/api/refresh" });
       res.json({ msg: "Logged out!" });
     } catch (err: any) {
       throw new Error(err);
@@ -223,7 +227,7 @@ const forgotPasswordToken = asyncHandler(
     if (!user) res.status(400).json({ msg: "User not found with this email" });
     try {
       const resetUrl = `Hi ${user!.username},<br>
-      Sorry to hear you’re having trouble logging into Instagram. We got a message that you forgot your password. If this was you, you can get right back into your account or reset your password now. <a href="https://instagram-mern-typescript.vercel.app/reset-password/${
+      Sorry to hear you’re having trouble logging into Instagram. We got a message that you forgot your password. If this was you, you can get right back into your account or reset your password now. <a href="http://localhost:3000/reset-password/${
         user!.refreshToken
       }">Log in as ${user!.username}</a>`;
       const data = {
