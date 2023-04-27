@@ -160,7 +160,7 @@ const handleRefreshToken = asyncHandler(
 const logout = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     try {
-      res.clearCookie("refreshToken", { path: "/" });
+      res.clearCookie("refreshToken");
       res.json({ msg: "Logged out!" });
     } catch (err: any) {
       throw new Error(err);

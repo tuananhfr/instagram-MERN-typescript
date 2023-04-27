@@ -122,7 +122,7 @@ export interface uploadImgState {
 /* Post  */
 
 export interface Post {
-  content: string;
+  content?: string;
   images: string[];
 }
 export interface postUpdate {

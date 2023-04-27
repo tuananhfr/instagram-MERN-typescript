@@ -186,7 +186,11 @@ const CreatePost: React.FC = () => {
               >
                 Create new post
               </span>
-              <button type="submit" className="post-btn">
+              <button
+                type="submit"
+                className="post-btn"
+                disabled={images.length > 0 ? false : true}
+              >
                 Share
               </button>
             </div>
