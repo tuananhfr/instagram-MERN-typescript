@@ -58,11 +58,10 @@ const refreshToken = async () => {
   }
 };
 const logout = async () => {
-  localStorage.removeItem("user");
-
   await axios.post(`${BASE_URL}/auth/logout`, config(), {
     withCredentials: true,
   });
+  localStorage.removeItem("user");
 
   window.location.href = "/";
 };
