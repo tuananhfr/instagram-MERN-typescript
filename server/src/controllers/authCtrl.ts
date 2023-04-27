@@ -165,29 +165,12 @@ const handleRefreshToken = asyncHandler(
 const logout = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     try {
-      // res.clearCookie("refreshToken");
-      // res.json({ msg: "Logged out!" });
-      const cookie = req.cookies;
-      if (!cookie?.refreshToken) throw new Error("No Refresh Token in Cookies");
-      const refreshToken = cookie.refreshToken;
-      const user = await User.findOne({ refreshToken });
-      if (!user) {
-        res.clearCookie("refreshToken", {
-          httpOnly: true,
-          secure: true,
-          sameSite: "none",
-        });
-        res.status(204); // forbidden
-      }
-      await User.findOneAndUpdate(refreshToken, {
-        refreshToken: "",
-      });
       res.clearCookie("refreshToken", {
         httpOnly: true,
         secure: true,
         sameSite: "none",
       });
-      res.sendStatus(204); // forbidden
+      res.json({ msg: "Logged out!" });
     } catch (err: any) {
       throw new Error(err);
     }
