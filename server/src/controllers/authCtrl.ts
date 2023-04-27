@@ -46,6 +46,7 @@ const registerUser = asyncHandler(
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: true,
+          sameSite: "none",
 
           maxAge: 72 * 60 * 60 * 1000,
         });
@@ -83,6 +84,8 @@ const loginFacebookUser = asyncHandler(
         );
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
+          secure: true,
+          sameSite: "none",
 
           maxAge: 72 * 60 * 60 * 1000,
         });
@@ -172,6 +175,7 @@ const logout = asyncHandler(
         res.clearCookie("refreshToken", {
           httpOnly: true,
           secure: true,
+          sameSite: "none",
         });
         res.status(204); // forbidden
       }
@@ -181,6 +185,7 @@ const logout = asyncHandler(
       res.clearCookie("refreshToken", {
         httpOnly: true,
         secure: true,
+        sameSite: "none",
       });
       res.sendStatus(204); // forbidden
     } catch (err: any) {
