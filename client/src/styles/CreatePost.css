@@ -5,6 +5,14 @@
   font-weight: 600;
   line-height: 1.3rem;
 }
+
+.post-btn-disabled {
+  color: #7fc8f9;
+  background-color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3rem;
+}
 .post-btn:hover {
   color: black;
 }

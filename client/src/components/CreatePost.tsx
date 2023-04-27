@@ -188,8 +188,14 @@ const CreatePost: React.FC = () => {
               </span>
               <button
                 type="submit"
-                className="post-btn"
-                disabled={images.length > 0 ? false : true}
+                className={
+                  images.length > 0 && formik.values.content
+                    ? "post-btn"
+                    : "post-btn-disabled"
+                }
+                disabled={
+                  images.length > 0 && formik.values.content ? false : true
+                }
               >
                 Share
               </button>
