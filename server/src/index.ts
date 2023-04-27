@@ -30,12 +30,12 @@ const io = new Server(httpServer, {
 
 dbConnect();
 app.use(morgan("dev"));
-// const corsOptions = {
-//   origin: "https://instagram-mern-typescript.vercel.app",
-//   credentials: true, //access-control-allow-credentials:true
-//   optionSuccessStatus: 200,
-// };
-app.use(cors());
+const corsOptions = {
+  origin: "https://instagram-mern-typescript.vercel.app",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(
   bodyParser.urlencoded({
