@@ -34,7 +34,6 @@ app.use(morgan("dev"));
 const corsOptions = {
   origin: "https://instagram-mern-typescript.vercel.app",
   //origin: "http://localhost:3000",
-
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
