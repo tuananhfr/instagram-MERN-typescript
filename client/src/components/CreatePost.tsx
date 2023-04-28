@@ -15,6 +15,7 @@ import { EmojiIcon, UploadImg } from "./Icons";
 import { deleteImgPost, uploadImgPost } from "../redux/features/uploadImgSlice";
 import { createPost } from "../redux/features/postSlice";
 import { createNotification } from "../redux/features/notificationSlice";
+import Load from "../images/loading.gif";
 
 let schema = yup.object().shape({
   content: yup.string().required("Content is Required"),
@@ -22,6 +23,7 @@ let schema = yup.object().shape({
 const CreatePost: React.FC = () => {
   const { auth } = useSelector((state: RootState) => state);
   const { upload } = useSelector((state: RootState) => state);
+  const { message } = upload;
   const { socket } = useSelector((state: RootState) => state);
 
   const { globalState } = useSelector((state: RootState) => state);
@@ -39,20 +41,33 @@ const CreatePost: React.FC = () => {
   const [emoji, setEmoji] = useState<boolean>(false);
   const [tracks, setTracks] = useState<MediaStreamTrack | null>(null);
   const [stream, setStream] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  useEffect(() => {
+    if (message === "upload/upload-images-post pedding") {
+      setLoading(true);
+    }
+  }, [message]);
 
   useEffect(() => {
-    if (upload.images[0] !== undefined) {
+    if (
+      upload.images[0] !== undefined &&
+      message === "upload/upload-images-post success"
+    ) {
       const urls = upload.images.map((image) => image.url);
       setImages(urls);
     }
-  }, [upload.images]);
+  }, [upload.images, message]);
 
   const uploadImages = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList: FileList = e.target.files!;
     const filesArray: File[] = Array.from(fileList);
-
-    dispatch(uploadImgPost(filesArray));
+    dispatch(uploadImgPost(filesArray)).then((response) => {
+      if (response.payload) {
+        setLoading(false);
+      }
+    });
   };
+
   const formik = useFormik({
     initialValues: {
       content: "",
@@ -78,7 +93,9 @@ const CreatePost: React.FC = () => {
 
         // socket.data!.emit("createComment", newComment);
       });
-      handleStopStream();
+      if (stream) {
+        handleStopStream();
+      }
       dispatch(setIsUploadGlobalState());
       formik.resetForm();
       setImages([]);
@@ -139,7 +156,9 @@ const CreatePost: React.FC = () => {
   };
   const handleCloseModal = () => {
     dispatch(setIsUploadGlobalState());
-    handleStopStream();
+    if (stream) {
+      handleStopStream();
+    }
     formik.resetForm();
     setImages([]);
   };
@@ -225,7 +244,7 @@ const CreatePost: React.FC = () => {
                         <span>
                           <button
                             type="button"
-                            className="btn-close"
+                            className="btn-close bg-white"
                             aria-label="Close"
                             onClick={() => handleDeleteImages(index)}
                           ></button>
@@ -248,7 +267,7 @@ const CreatePost: React.FC = () => {
                         <span>
                           <button
                             type="button"
-                            className="btn-close"
+                            className="btn-close bg-white"
                             aria-label="Close"
                             onClick={handleStopStream}
                           ></button>
@@ -318,6 +337,14 @@ const CreatePost: React.FC = () => {
                       ref={ref}
                       onChange={uploadImages}
                     />
+
+                    {loading ? (
+                      <img
+                        src={Load}
+                        alt=""
+                        style={{ width: "1.2rem", height: "1.2rem" }}
+                      />
+                    ) : null}
                   </div>
                 )}
               </div>

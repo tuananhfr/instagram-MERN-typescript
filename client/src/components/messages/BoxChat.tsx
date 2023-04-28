@@ -42,6 +42,7 @@ const BoxChat: React.FC<BoxChatProps> = ({ id }) => {
 
   const { auth } = useSelector((state: RootState) => state);
   const { online } = useSelector((state: RootState) => state);
+  const { upload } = useSelector((state: RootState) => state);
 
   const { socket } = useSelector((state: RootState) => state);
 
@@ -66,8 +67,8 @@ const BoxChat: React.FC<BoxChatProps> = ({ id }) => {
           conversation: id,
           sender: auth.user!._id,
           recipient: newArr[0]!.recipients._id,
-          text: "",
-          media: response.payload[0].url.toString(),
+
+          media: response.payload[0].url,
         })
       ).then((res) => {
         socket.data!.emit("createMessage", res.payload);
@@ -392,7 +393,7 @@ const BoxChat: React.FC<BoxChatProps> = ({ id }) => {
                       )
                     ) : (
                       <>
-                        {msg.media !== "" && msg.text === "" ? (
+                        {msg.media && !msg.text ? (
                           <div className="boxchat-my-message-images">
                             <img src={msg.media} alt={msg.media} />
                           </div>
@@ -451,7 +452,7 @@ const BoxChat: React.FC<BoxChatProps> = ({ id }) => {
                         )
                       ) : (
                         <>
-                          {msg.media !== "" && msg.text === "" ? (
+                          {msg.media && !msg.text ? (
                             <div className="boxchat-user-message-images">
                               <img src={msg.media} alt={msg.media} />
                             </div>

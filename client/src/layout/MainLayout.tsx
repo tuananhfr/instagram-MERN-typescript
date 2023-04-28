@@ -25,6 +25,8 @@ import FollowingModal from "../components/FollowingModal";
 
 const MainLayout: React.FC = () => {
   const socketIo = io("https://instagram-mern-typescript.onrender.com");
+  // const socketIo = io("http://localhost:5000");
+
   const socketRef = useRef<Socket>(socketIo);
   const dispatch: AppDispatch = useDispatch();
   const { auth, socket, peer } = useSelector((state: RootState) => state);

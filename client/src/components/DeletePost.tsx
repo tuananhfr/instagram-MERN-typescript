@@ -4,6 +4,7 @@ import { setIsDeletePostGlobalState } from "../redux/features/GlobalStateSlice";
 import { deletePost } from "../redux/features/postSlice";
 import { AppDispatch, RootState } from "../redux/store";
 import { deleteNotification } from "../redux/features/notificationSlice";
+import { deleteImgPost } from "../redux/features/uploadImgSlice";
 
 const DeletePost: React.FC = () => {
   const { globalState } = useSelector((state: RootState) => state);
@@ -14,8 +15,23 @@ const DeletePost: React.FC = () => {
   const { post } = useSelector((state: RootState) => state);
 
   const filteredPost = post.data.find((value) => value._id === postModalId);
+  // const startIndex = msg.media.lastIndexOf("/") + 1;
+  //       const endIndex = msg.media.lastIndexOf(".");
+
+  //       const publicId = msg.media.substring(startIndex, endIndex);
+  //       dispatch(deleteImgMessages(publicId));
   const handleDelete = () => {
-    dispatch(deletePost(postModalId!));
+    dispatch(deletePost(postModalId!)).then((response) => {
+      response.payload.images.map((image: string) => {
+        if (image.startsWith("https://res.cloudinary.com")) {
+          const startIndex = image.lastIndexOf("/") + 1;
+          const endIndex = image.lastIndexOf(".");
+
+          const publicId = image.substring(startIndex, endIndex);
+          dispatch(deleteImgPost(publicId));
+        }
+      });
+    });
     dispatch(setIsDeletePostGlobalState());
     dispatch(deleteNotification(postModalId!)).then((response) => {
       socket.data!.emit("deleteNotify", response.payload);

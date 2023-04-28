@@ -109,6 +109,7 @@ export const uploadImgSlice = createSlice({
       })
       .addCase(uploadImgPost.pending, (state) => {
         state.isLoading = true;
+        state.message = "upload/upload-images-post pedding";
       })
       .addCase(
         uploadImgPost.fulfilled,
@@ -117,7 +118,7 @@ export const uploadImgSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.images = action.payload;
-          state.message = "success";
+          state.message = "upload/upload-images-post success";
         }
       )
       .addCase(uploadImgPost.rejected, (state, action) => {
@@ -175,9 +176,7 @@ export const uploadImgSlice = createSlice({
           state.isError = false;
           state.isLoading = false;
           state.isSuccess = true;
-          state.images = state.images.filter(
-            (img) => img.public_id !== action.payload.public_id
-          );
+          state.images = [];
           state.message = "success";
         }
       )
@@ -196,9 +195,8 @@ export const uploadImgSlice = createSlice({
           state.isError = false;
           state.isLoading = false;
           state.isSuccess = true;
-          state.images = state.images.filter(
-            (img) => img.public_id !== action.payload.public_id
-          );
+          state.images = [];
+
           state.message = "success";
         }
       )

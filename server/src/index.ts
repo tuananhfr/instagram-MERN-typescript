@@ -26,12 +26,15 @@ const PORT: string | number = process.env.PORT || 4000;
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: { origin: "https://instagram-mern-typescript.vercel.app" },
+  // cors: { origin: "http://localhost:3000" },
 });
 
 dbConnect();
 app.use(morgan("dev"));
 const corsOptions = {
   origin: "https://instagram-mern-typescript.vercel.app",
+  //origin: "http://localhost:3000",
+
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };

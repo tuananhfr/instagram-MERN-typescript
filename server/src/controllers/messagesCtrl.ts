@@ -9,7 +9,7 @@ const createMessages = asyncHandler(
   async (req: IReqAuth, res: Response): Promise<void> => {
     try {
       const { sender, recipient, text, media, call } = req.body;
-      if (!recipient || (!text.trim() && !text.trim() && !call)) return;
+      if (!recipient || (text === "" && media === "" && !call)) return;
       const newConversation = await Conversation.findOneAndUpdate(
         {
           $or: [

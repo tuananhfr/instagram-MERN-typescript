@@ -19,7 +19,7 @@ const DeleteConversation: React.FC = () => {
   const navigate = useNavigate();
   const handleDelete = () => {
     messages.data!.map((msg) => {
-      if (msg.text === "" && msg.media !== "") {
+      if (!msg.text && msg.media) {
         const startIndex = msg.media.lastIndexOf("/") + 1;
         const endIndex = msg.media.lastIndexOf(".");
 
