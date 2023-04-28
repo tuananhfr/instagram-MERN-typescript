@@ -5,6 +5,7 @@ cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY_CLOUDINAIRE,
   api_secret: process.env.API_SECRET_CLOUDINAIRE,
+  secure: true,
 });
 
 export const cloudinaryUploadImgAvatar = async (fileUpload: string) => {
