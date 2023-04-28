@@ -7,7 +7,7 @@ import { Request, Response, NextFunction } from "express";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../public/images/"));
+    cb(null, path.join(__dirname, "../"));
   },
   filename: function (req, file, cb) {
     const uniquesuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -43,8 +43,8 @@ export const imgResize = async (
         .resize(300, 300)
         .toFormat("jpeg")
         .jpeg({ quality: 90 })
-        .toFile(`src/public/images/${file.filename}`);
-      fs.unlinkSync(`src/public/images/${file.filename}`);
+        .toFile(`src/${file.filename}`);
+      fs.unlinkSync(`src/${file.filename}`);
     })
   );
   next();
