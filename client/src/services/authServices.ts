@@ -16,9 +16,9 @@ const register = async (user: UserRegister) => {
     withCredentials: true,
   });
   if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
+    localStorage.setItem("user", JSON.stringify(response.data.accessToken));
   }
-  return response.data;
+  return response.data.user;
 };
 
 const login = async (user: UserLogin) => {
@@ -26,10 +26,10 @@ const login = async (user: UserLogin) => {
     withCredentials: true,
   });
   if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
+    localStorage.setItem("user", JSON.stringify(response.data.accessToken));
   }
 
-  return response.data;
+  return response.data.user;
 };
 
 const loginFacebookUser = async (data: UserLoginFaceBook) => {
@@ -37,30 +37,33 @@ const loginFacebookUser = async (data: UserLoginFaceBook) => {
     withCredentials: true,
   });
   if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
+    localStorage.setItem("user", JSON.stringify(response.data.accessToken));
   }
 
-  return response.data;
+  return response.data.user;
 };
 const resetPassword = async (data: IResetPassword) => {
   const response = await axios.post(`${BASE_URL}/auth/reset-password/`, data);
   if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
+    localStorage.setItem("user", JSON.stringify(response.data.accessToken));
   }
   return response.data;
 };
 const refreshToken = async () => {
-  const firstLogin = getTokenFromLocalStorage().refreshToken;
+  const firstLogin = getTokenFromLocalStorage();
 
   if (firstLogin) {
-    const response = await axios.post(`${BASE_URL}/auth/refresh`, config());
+    const response = await axios.get(`${BASE_URL}/auth/refresh`, config());
+    if (response.data) {
+      // localStorage.setItem("user", JSON.stringify(response.data));
+      console.log(localStorage.setItem("user", JSON.stringify(response.data)));
+    }
+
     return response.data;
   }
 };
 const logout = async () => {
-  await axios.post(`${BASE_URL}/auth/logout`, config(), {
-    withCredentials: true,
-  });
+  await axios.get(`${BASE_URL}/auth/logout`, config());
   localStorage.removeItem("user");
 
   window.location.href = "/";

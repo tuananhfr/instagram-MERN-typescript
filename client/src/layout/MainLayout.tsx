@@ -22,14 +22,15 @@ import Call from "../components/Call";
 import { setPeer } from "../redux/features/peerSlice";
 import FollowerModal from "../components/FollowerModal";
 import FollowingModal from "../components/FollowingModal";
+import { refreshToken } from "../redux/features/authSlice";
 
 const MainLayout: React.FC = () => {
-  const socketIo = io("https://instagram-mern-typescript.onrender.com");
-  // const socketIo = io("http://localhost:5000");
+  //const socketIo = io("https://instagram-mern-typescript.onrender.com");
+  const socketIo = io("http://localhost:5000");
 
   const socketRef = useRef<Socket>(socketIo);
   const dispatch: AppDispatch = useDispatch();
-  const { auth, socket, peer } = useSelector((state: RootState) => state);
+  const { auth } = useSelector((state: RootState) => state);
 
   useEffect(() => {
     socketRef.current = socketIo;
@@ -48,6 +49,10 @@ const MainLayout: React.FC = () => {
     });
 
     dispatch(setPeer(newPeer));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(refreshToken());
   }, [dispatch]);
 
   return (

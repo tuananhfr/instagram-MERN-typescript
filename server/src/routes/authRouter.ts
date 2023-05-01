@@ -17,8 +17,8 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/login-facebook", loginFacebookUser);
 
-router.post("/refresh", authMiddleware, handleRefreshToken);
-router.post("/logout", logout);
+router.get("/refresh", authMiddleware, handleRefreshToken);
+router.get("/logout", authMiddleware, logout);
 router.put("/", authMiddleware, updateUser);
 router.get("/", authMiddleware, getCurrentUser);
 router.post("/forgot-password", forgotPasswordToken);

@@ -15,7 +15,7 @@ const authMiddleware = asyncHandler(
       const token = authHeader.split(" ")[1];
       const decoded: any = jsonwebtoken.verify(
         token,
-        process.env.JWT_SECRET as string
+        process.env.ACCESS_TOKEN as string
       );
       const user = await User.findById(decoded?.id);
       if (!user) {

@@ -13,15 +13,8 @@ import {
   UserRegister,
 } from "../../utils/interface";
 
-const getUserfromLocalStorage = (): User | null => {
-  const user = localStorage.getItem("user");
-  if (user) {
-    return JSON.parse(user);
-  }
-  return null;
-};
 const initialState: AuthState = {
-  user: getUserfromLocalStorage(),
+  user: null,
   isError: false,
   isLoading: false,
   isSuccess: false,
@@ -252,26 +245,26 @@ export const authSlice = createSlice({
 
         state.isLoading = false;
       })
-      .addCase(refreshToken.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(
-        refreshToken.fulfilled,
-        (state, action: PayloadAction<string>) => {
-          state.isError = false;
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.user!.refreshToken = action.payload;
-          state.message = "success";
-        }
-      )
-      .addCase(refreshToken.rejected, (state, action) => {
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.error.message || "An error occurred.";
+      // .addCase(refreshToken.pending, (state) => {
+      //   state.isLoading = true;
+      // })
+      // .addCase(
+      //   refreshToken.fulfilled,
+      //   (state, action: PayloadAction<string>) => {
+      //     state.isError = false;
+      //     state.isLoading = false;
+      //     state.isSuccess = true;
 
-        state.isLoading = false;
-      })
+      //     state.message = "success";
+      //   }
+      // )
+      // .addCase(refreshToken.rejected, (state, action) => {
+      //   state.isError = true;
+      //   state.isSuccess = false;
+      //   state.message = action.error.message || "An error occurred.";
+
+      //   state.isLoading = false;
+      // })
       .addCase(logout.pending, (state) => {
         state.isLoading = true;
       })

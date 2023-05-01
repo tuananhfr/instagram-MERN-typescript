@@ -1,10 +1,10 @@
-import { IReqAuth } from "./../config/interface";
+import { IDecodedToken, IReqAuth } from "./../config/interface";
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 
 import User from "../models/userModel";
 import generateRefreshToken from "../config/refreshtoken";
-import generateToken from "../config/jwtToken";
+import accessToken from "../config/jwtToken";
 
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../utils/sendEmail";
@@ -36,10 +36,11 @@ const registerUser = asyncHandler(
           faceBookId,
         }).save();
         const refreshToken = await generateRefreshToken(newUser?._id);
+        const accesToken = await accessToken(newUser?._id);
         const updateuser = await User.findByIdAndUpdate(
           newUser.id,
           {
-            refreshToken: refreshToken,
+            refreshToken: accesToken,
           },
           { new: true }
         );
@@ -50,7 +51,7 @@ const registerUser = asyncHandler(
 
           maxAge: 72 * 60 * 60 * 1000,
         });
-        res.json(updateuser);
+        res.json({ user: updateuser, accessToken: accesToken });
       }
     } catch (err: any) {
       throw new Error(err);
@@ -72,6 +73,8 @@ const loginFacebookUser = asyncHandler(
       if (!findUser) res.status(400).json({ msg: "This user does not exist." });
       else {
         const refreshToken = await generateRefreshToken(findUser?._id);
+        const accesToken = await accessToken(findUser?._id);
+
         const updateuser = await User.findByIdAndUpdate(
           findUser._id,
           {
@@ -86,10 +89,9 @@ const loginFacebookUser = asyncHandler(
           httpOnly: true,
           secure: true,
           sameSite: "none",
-
           maxAge: 72 * 60 * 60 * 1000,
         });
-        res.json(updateuser);
+        res.json({ user: updateuser, accessToken: accesToken });
       }
     } catch (err: any) {
       throw new Error(err);
@@ -109,6 +111,8 @@ const loginUser = asyncHandler(
 
       if (findUser && (await findUser.isPasswordMatched(password))) {
         const refreshToken = await generateRefreshToken(findUser?._id);
+        const accesToken = await accessToken(findUser?._id);
+
         const updateuser = await User.findByIdAndUpdate(
           findUser.id,
           {
@@ -126,7 +130,7 @@ const loginUser = asyncHandler(
           maxAge: 72 * 60 * 60 * 1000,
         });
 
-        res.json(updateuser);
+        res.json({ user: updateuser, accessToken: accesToken });
       } else {
         throw new Error("Password is incorrect");
       }
@@ -139,37 +143,74 @@ const loginUser = asyncHandler(
 // handle refresh token
 
 const handleRefreshToken = asyncHandler(
-  async (req: Request, res: Response): Promise<void> => {
-    const cookie = req.cookies;
+  async (req: IReqAuth, res: Response): Promise<void> => {
+    const rfToken = req.cookies;
+    console.log(rfToken.refreshToken);
+    if (!rfToken.refreshToken)
+      res.status(400).json({ msg: "Please login now!0" });
+    const decoded = <IDecodedToken>(
+      jwt.verify(rfToken.refreshToken, process.env.REFRESH_TOKEN as any)
+    );
+    if (!decoded.id) res.status(400).json({ msg: "Please login now!1" });
 
-    if (!cookie?.refreshToken) throw new Error("No Refresh Token in Cookies");
-    const refreshToken = cookie.refreshToken;
-    const user = await User.findOne({ refreshToken });
-    if (!user)
-      throw new Error(" No Refresh token present in db or not matched");
-    jwt.verify(
-      refreshToken,
-      process.env.JWT_SECRET as any,
-      (err: any, decoded: any) => {
-        if (err || user.id !== decoded.id) {
-          throw new Error("There is something wrong with refresh token");
-        }
+    const user = await User.findById(decoded.id);
+    if (!user) res.status(400).json({ msg: "This account does not exist." });
 
-        const refreshToken = generateToken(user?._id);
-        res.json({ refreshToken });
+    if (rfToken.refreshToken !== user!.refreshToken)
+      res.status(400).json({ msg: "Please login now!2" });
+    const access_token = accessToken(user!._id);
+    const refresh_token = generateRefreshToken(user!._id);
+    await User.findOneAndUpdate(
+      { _id: user!._id },
+      {
+        refreshToken: refresh_token,
       }
     );
+    res.json(access_token);
+    // if (!user)
+    //   throw new Error(" No Refresh token present in db or not matched");
+    // jwt.verify(
+    //   refreshToken,
+    //   process.env.REFRESH_TOKEN as any,
+    //   (err: any, decoded: any) => {
+    //     if (err || user.id !== decoded.id) {
+    //       throw new Error("There is something wrong with refresh token");
+    //     }
+
+    //     const refreshToken = accessToken(user?._id);
+    //     res.json({ refreshToken });
+    //   }
+    // );
   }
 );
 
 const logout = asyncHandler(
-  async (req: Request, res: Response): Promise<void> => {
+  async (req: IReqAuth, res: Response): Promise<void> => {
+    // try {
+    //   res.clearCookie("refreshToken", {
+    //     httpOnly: true,
+    //     secure: true,
+    //     sameSite: "none",
+    //   });
+    //   res.json({ msg: "Logged out!" });
+
+    if (!req.user) res.status(400).json({ msg: "Invalid Authentication." });
+
     try {
       res.clearCookie("refreshToken", {
         httpOnly: true,
         secure: true,
         sameSite: "none",
       });
+
+      await User.findOneAndUpdate(
+        { _id: req.user!._id },
+        {
+          refreshToken: "",
+        }
+      );
+      const rfToken = req.cookies;
+      console.log(rfToken);
       res.json({ msg: "Logged out!" });
     } catch (err: any) {
       throw new Error(err);

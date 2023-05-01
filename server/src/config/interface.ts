@@ -1,6 +1,11 @@
 import { Document } from "mongoose";
 import { Request } from "express";
 
+export interface IDecodedToken {
+  id?: string;
+  iat: number;
+  exp: number;
+}
 export interface IUser extends Document {
   fullname: string;
   username: string;

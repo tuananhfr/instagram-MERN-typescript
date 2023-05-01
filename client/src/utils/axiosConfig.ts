@@ -6,7 +6,7 @@ export const getTokenFromLocalStorage: any = () => {
 
 export const config = () => ({
   headers: {
-    Authorization: `Bearer ${getTokenFromLocalStorage().refreshToken}`,
+    Authorization: `Bearer ${getTokenFromLocalStorage()}`,
     Accept: "application/json",
   },
 });
