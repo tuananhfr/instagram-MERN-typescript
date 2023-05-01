@@ -23,10 +23,10 @@ import { setPeer } from "../redux/features/peerSlice";
 import FollowerModal from "../components/FollowerModal";
 import FollowingModal from "../components/FollowingModal";
 import { refreshToken } from "../redux/features/authSlice";
+import { BASE_URL } from "../utils/baseUrl";
 
 const MainLayout: React.FC = () => {
-  //const socketIo = io("https://instagram-mern-typescript.onrender.com");
-  const socketIo = io("http://localhost:5000");
+  const socketIo = io(BASE_URL);
 
   const socketRef = useRef<Socket>(socketIo);
   const dispatch: AppDispatch = useDispatch();
