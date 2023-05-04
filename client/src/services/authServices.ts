@@ -18,7 +18,7 @@ const register = async (user: UserRegister) => {
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
-  return response.data.user;
+  return response.data;
 };
 
 const login = async (user: UserLogin) => {
@@ -36,7 +36,7 @@ const loginFacebookUser = async (data: UserLoginFaceBook) => {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
 
-  return response.data.user;
+  return response.data;
 };
 const resetPassword = async (data: IResetPassword) => {
   const response = await axios.post(`${BASE_URL}/auth/reset-password/`, data);
