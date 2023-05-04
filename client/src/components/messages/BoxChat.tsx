@@ -362,14 +362,20 @@ const BoxChat: React.FC<BoxChatProps> = ({ id }) => {
                     {msg.call ? (
                       msg.call.video ? (
                         msg.call.start === "" ? (
-                          <div className="boxchat-my-message-call">
+                          <div
+                            className="boxchat-my-message-call"
+                            onClick={handleVideoCall}
+                          >
                             <VideoCallActiveIcon />
                             <div className="boxchat-user-message-call-text">
                               Video call ended
                             </div>
                           </div>
                         ) : (
-                          <div className="boxchat-my-message-call">
+                          <div
+                            className="boxchat-my-message-call"
+                            onClick={handleVideoCall}
+                          >
                             <VideoCallActiveIcon />
                             <div className="boxchat-user-message-call-text">
                               Video call started
@@ -377,14 +383,20 @@ const BoxChat: React.FC<BoxChatProps> = ({ id }) => {
                           </div>
                         )
                       ) : msg.call.start === "" ? (
-                        <div className="boxchat-my-message-call">
+                        <div
+                          className="boxchat-my-message-call"
+                          onClick={handleAudioCall}
+                        >
                           <CallActiveIcon />
                           <div className="boxchat-user-message-call-text">
                             Audio call ended
                           </div>
                         </div>
                       ) : (
-                        <div className="boxchat-my-message-call">
+                        <div
+                          className="boxchat-my-message-call"
+                          onClick={handleAudioCall}
+                        >
                           <CallActiveIcon />
                           <div className="boxchat-user-message-call-text">
                             Audio call started
@@ -420,14 +432,20 @@ const BoxChat: React.FC<BoxChatProps> = ({ id }) => {
                       {msg.call ? (
                         msg.call.video ? (
                           msg.call.start === "" ? (
-                            <div className="boxchat-user-message-call">
+                            <div
+                              className="boxchat-user-message-call"
+                              onClick={handleVideoCall}
+                            >
                               <VideoCallActiveIcon />
                               <div className="boxchat-user-message-call-text">
                                 Video call ended
                               </div>
                             </div>
                           ) : (
-                            <div className="boxchat-user-message-call">
+                            <div
+                              className="boxchat-user-message-call"
+                              onClick={handleVideoCall}
+                            >
                               <VideoCallActiveIcon />
                               <div className="boxchat-user-message-call-text">
                                 Video call started
@@ -435,14 +453,20 @@ const BoxChat: React.FC<BoxChatProps> = ({ id }) => {
                             </div>
                           )
                         ) : msg.call.start === "" ? (
-                          <div className="boxchat-user-message-call">
+                          <div
+                            className="boxchat-user-message-call"
+                            onClick={handleAudioCall}
+                          >
                             <CallActiveIcon />
                             <div className="boxchat-user-message-call-text">
                               Audio call ended
                             </div>
                           </div>
                         ) : (
-                          <div className="boxchat-user-message-call">
+                          <div
+                            className="boxchat-user-message-call"
+                            onClick={handleAudioCall}
+                          >
                             <CallActiveIcon />
 
                             <div className="boxchat-user-message-call-text">
