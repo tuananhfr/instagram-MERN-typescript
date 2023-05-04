@@ -11,33 +11,29 @@ import {
   UserRegister,
 } from "../utils/interface";
 
+axios.defaults.withCredentials = true;
+
 const register = async (user: UserRegister) => {
-  const response = await axios.post(`${BASE_URL}/auth/register`, user, {
-    withCredentials: true,
-  });
+  const response = await axios.post(`${BASE_URL}/auth/register`, user);
   if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data.accessToken));
+    localStorage.setItem("user", JSON.stringify(response.data));
   }
   return response.data.user;
 };
 
 const login = async (user: UserLogin) => {
-  const response = await axios.post(`${BASE_URL}/auth/login`, user, {
-    withCredentials: true,
-  });
+  const response = await axios.post(`${BASE_URL}/auth/login`, user);
   if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data.accessToken));
+    localStorage.setItem("user", JSON.stringify(response.data));
   }
 
-  return response.data.user;
+  return response.data;
 };
 
 const loginFacebookUser = async (data: UserLoginFaceBook) => {
-  const response = await axios.post(`${BASE_URL}/auth/login-facebook`, data, {
-    withCredentials: true,
-  });
+  const response = await axios.post(`${BASE_URL}/auth/login-facebook`, data);
   if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data.accessToken));
+    localStorage.setItem("user", JSON.stringify(response.data));
   }
 
   return response.data.user;
@@ -50,20 +46,24 @@ const resetPassword = async (data: IResetPassword) => {
   return response.data;
 };
 const refreshToken = async () => {
-  const firstLogin = getTokenFromLocalStorage();
+  const firstLogin = getTokenFromLocalStorage().token;
 
   if (firstLogin) {
-    const response = await axios.get(`${BASE_URL}/auth/refresh`, config());
+    const response = await axios.post(`${BASE_URL}/auth/refresh`);
     if (response.data) {
-      // localStorage.setItem("user", JSON.stringify(response.data));
-      console.log(localStorage.setItem("user", JSON.stringify(response.data)));
+      const userString = localStorage.getItem("user");
+      const user = JSON.parse(userString!);
+
+      // Update the "token" property of the user object
+      user.token = response.data;
+      localStorage.setItem("user", JSON.stringify(user));
     }
 
     return response.data;
   }
 };
 const logout = async () => {
-  await axios.get(`${BASE_URL}/auth/logout`, config());
+  await axios.post(`${BASE_URL}/auth/logout`);
   localStorage.removeItem("user");
 
   window.location.href = "/";

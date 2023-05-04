@@ -5,8 +5,9 @@ export const getTokenFromLocalStorage: any = () => {
 };
 
 export const config = () => ({
+  credentials: "include",
   headers: {
-    Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+    Authorization: `Bearer ${getTokenFromLocalStorage().token}`,
     Accept: "application/json",
   },
 });

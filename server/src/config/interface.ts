@@ -22,7 +22,7 @@ export interface IUser extends Document {
   followers: Array<IUser>;
   following: Array<IUser>;
   saved: Array<IUser>;
-  refreshToken: string;
+  token: string;
   isPasswordMatched: (enteredPassword: string) => Promise<boolean>;
   createPasswordResetToken: () => Promise<string>;
 }

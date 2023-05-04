@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema(
     following: [{ type: mongoose.Types.ObjectId, ref: "user" }],
     post: [{ type: mongoose.Types.ObjectId, ref: "post" }],
     saved: [{ type: mongoose.Types.ObjectId, ref: "post" }],
-    refreshToken: {
+    token: {
       type: String,
     },
   },

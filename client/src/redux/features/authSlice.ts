@@ -12,9 +12,10 @@ import {
   UserLoginFaceBook,
   UserRegister,
 } from "../../utils/interface";
+import { getTokenFromLocalStorage } from "../../utils/axiosConfig";
 
 const initialState: AuthState = {
-  user: null,
+  user: getTokenFromLocalStorage(),
   isError: false,
   isLoading: false,
   isSuccess: false,
@@ -76,11 +77,15 @@ export const register = createAsyncThunk(
 );
 export const refreshToken = createAsyncThunk(
   "auth/refresh-token",
-  async (_, thunkAPI) => {
+  async (_) => {
     try {
       return await authService.refreshToken();
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error);
+      if (error.response) {
+        throw new Error(error.response.data.msg);
+      } else {
+        throw error;
+      }
     }
   }
 );
@@ -245,26 +250,27 @@ export const authSlice = createSlice({
 
         state.isLoading = false;
       })
-      // .addCase(refreshToken.pending, (state) => {
-      //   state.isLoading = true;
-      // })
-      // .addCase(
-      //   refreshToken.fulfilled,
-      //   (state, action: PayloadAction<string>) => {
-      //     state.isError = false;
-      //     state.isLoading = false;
-      //     state.isSuccess = true;
+      .addCase(refreshToken.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(
+        refreshToken.fulfilled,
+        (state, action: PayloadAction<string>) => {
+          state.isError = false;
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.user!.token = action.payload;
+          state.message = "success";
+        }
+      )
+      .addCase(refreshToken.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message =
+          action.error.message || "auth/refresh-token An error occurred.";
 
-      //     state.message = "success";
-      //   }
-      // )
-      // .addCase(refreshToken.rejected, (state, action) => {
-      //   state.isError = true;
-      //   state.isSuccess = false;
-      //   state.message = action.error.message || "An error occurred.";
-
-      //   state.isLoading = false;
-      // })
+        state.isLoading = false;
+      })
       .addCase(logout.pending, (state) => {
         state.isLoading = true;
       })

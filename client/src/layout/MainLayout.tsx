@@ -22,11 +22,11 @@ import Call from "../components/Call";
 import { setPeer } from "../redux/features/peerSlice";
 import FollowerModal from "../components/FollowerModal";
 import FollowingModal from "../components/FollowingModal";
-import { refreshToken } from "../redux/features/authSlice";
-import { BASE_URL } from "../utils/baseUrl";
+
+import { BASE_URL_SOCKET } from "../utils/baseUrl";
 
 const MainLayout: React.FC = () => {
-  const socketIo = io(BASE_URL);
+  const socketIo = io(BASE_URL_SOCKET);
 
   const socketRef = useRef<Socket>(socketIo);
   const dispatch: AppDispatch = useDispatch();
@@ -51,13 +51,9 @@ const MainLayout: React.FC = () => {
     dispatch(setPeer(newPeer));
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(refreshToken());
-  }, [dispatch]);
-
   return (
     <div className="absolute-center main-layout-container">
-      {auth.user?.refreshToken && <SocketClient />}
+      {auth.user?.token && <SocketClient />}
       <NavBar />
       <Outlet />
       <SearchBox />

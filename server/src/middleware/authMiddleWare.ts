@@ -17,6 +17,7 @@ const authMiddleware = asyncHandler(
         token,
         process.env.ACCESS_TOKEN as string
       );
+
       const user = await User.findById(decoded?.id);
       if (!user) {
         res.status(401);

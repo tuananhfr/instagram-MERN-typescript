@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -7,6 +7,9 @@ import AuthLayout from "./layout/AuthLayout";
 import MainLayout from "./layout/MainLayout";
 
 import PrivateRouter from "./PrivateRoute";
+import { logout, refreshToken } from "./redux/features/authSlice";
+import { AppDispatch, RootState } from "./redux/store";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
@@ -24,6 +27,18 @@ const Post = lazy(() => import("./pages/Post"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 
 function App() {
+  const dispatch: AppDispatch = useDispatch();
+  const { auth } = useSelector((state: RootState) => state);
+  const { message } = auth;
+  useEffect(() => {
+    dispatch(refreshToken());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (message === "auth/refresh-token An error occurred.") {
+      dispatch(logout());
+    }
+  }, [dispatch, message]);
   return (
     <>
       <BrowserRouter>

@@ -84,7 +84,7 @@ export interface User {
   following: Array<IUser>;
   post: Array<string>;
   saved: Array<string>;
-  refreshToken: string;
+  token: string;
 }
 
 export interface UserState {

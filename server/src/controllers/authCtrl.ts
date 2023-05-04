@@ -40,7 +40,7 @@ const registerUser = asyncHandler(
         const updateuser = await User.findByIdAndUpdate(
           newUser.id,
           {
-            refreshToken: accesToken,
+            token: accesToken,
           },
           { new: true }
         );
@@ -49,9 +49,9 @@ const registerUser = asyncHandler(
           secure: true,
           sameSite: "none",
 
-          maxAge: 72 * 60 * 60 * 1000,
+          maxAge: 720 * 60 * 60 * 1000,
         });
-        res.json({ user: updateuser, accessToken: accesToken });
+        res.json(updateuser);
       }
     } catch (err: any) {
       throw new Error(err);
@@ -78,7 +78,7 @@ const loginFacebookUser = asyncHandler(
         const updateuser = await User.findByIdAndUpdate(
           findUser._id,
           {
-            refreshToken: refreshToken,
+            token: accesToken,
           },
           { new: true }
         ).populate(
@@ -89,9 +89,9 @@ const loginFacebookUser = asyncHandler(
           httpOnly: true,
           secure: true,
           sameSite: "none",
-          maxAge: 72 * 60 * 60 * 1000,
+          maxAge: 720 * 60 * 60 * 1000,
         });
-        res.json({ user: updateuser, accessToken: accesToken });
+        res.json(updateuser);
       }
     } catch (err: any) {
       throw new Error(err);
@@ -116,21 +116,24 @@ const loginUser = asyncHandler(
         const updateuser = await User.findByIdAndUpdate(
           findUser.id,
           {
-            refreshToken: refreshToken,
+            token: accesToken,
           },
           { new: true }
         ).populate(
           "followers following",
           "avatar username fullname followers following"
         );
+
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: true,
           sameSite: "none",
-          maxAge: 72 * 60 * 60 * 1000,
+          path: "/api/auth/refresh",
+
+          maxAge: 720 * 60 * 60 * 1000,
         });
 
-        res.json({ user: updateuser, accessToken: accesToken });
+        res.json(updateuser);
       } else {
         throw new Error("Password is incorrect");
       }
@@ -144,73 +147,42 @@ const loginUser = asyncHandler(
 
 const handleRefreshToken = asyncHandler(
   async (req: IReqAuth, res: Response): Promise<void> => {
-    const rfToken = req.cookies;
-    console.log(rfToken.refreshToken);
-    if (!rfToken.refreshToken)
-      res.status(400).json({ msg: "Please login now!0" });
+    const rfToken = req.cookies.refreshToken;
+
+    if (!rfToken) res.status(400).json({ msg: "Please login now!" });
     const decoded = <IDecodedToken>(
-      jwt.verify(rfToken.refreshToken, process.env.REFRESH_TOKEN as any)
+      jwt.verify(rfToken, process.env.REFRESH_TOKEN as any)
     );
-    if (!decoded.id) res.status(400).json({ msg: "Please login now!1" });
+    if (!decoded.id) res.status(400).json({ msg: "Please login now!" });
 
     const user = await User.findById(decoded.id);
+
     if (!user) res.status(400).json({ msg: "This account does not exist." });
 
-    if (rfToken.refreshToken !== user!.refreshToken)
-      res.status(400).json({ msg: "Please login now!2" });
     const access_token = accessToken(user!._id);
-    const refresh_token = generateRefreshToken(user!._id);
     await User.findOneAndUpdate(
       { _id: user!._id },
       {
-        refreshToken: refresh_token,
+        token: access_token,
       }
     );
     res.json(access_token);
-    // if (!user)
-    //   throw new Error(" No Refresh token present in db or not matched");
-    // jwt.verify(
-    //   refreshToken,
-    //   process.env.REFRESH_TOKEN as any,
-    //   (err: any, decoded: any) => {
-    //     if (err || user.id !== decoded.id) {
-    //       throw new Error("There is something wrong with refresh token");
-    //     }
-
-    //     const refreshToken = accessToken(user?._id);
-    //     res.json({ refreshToken });
-    //   }
-    // );
   }
 );
 
 const logout = asyncHandler(
   async (req: IReqAuth, res: Response): Promise<void> => {
-    // try {
-    //   res.clearCookie("refreshToken", {
-    //     httpOnly: true,
-    //     secure: true,
-    //     sameSite: "none",
-    //   });
-    //   res.json({ msg: "Logged out!" });
-
-    if (!req.user) res.status(400).json({ msg: "Invalid Authentication." });
-
     try {
+      const rfToken = req.cookies.refreshToken;
+
       res.clearCookie("refreshToken", {
         httpOnly: true,
+        path: "/api/auth/refresh",
+
         secure: true,
         sameSite: "none",
       });
 
-      await User.findOneAndUpdate(
-        { _id: req.user!._id },
-        {
-          refreshToken: "",
-        }
-      );
-      const rfToken = req.cookies;
-      console.log(rfToken);
       res.json({ msg: "Logged out!" });
     } catch (err: any) {
       throw new Error(err);
@@ -274,7 +246,7 @@ const forgotPasswordToken = asyncHandler(
     try {
       const resetUrl = `Hi ${user!.username},<br>
       Sorry to hear you’re having trouble logging into Instagram. We got a message that you forgot your password. If this was you, you can get right back into your account or reset your password now. <a href="https://instagram-mern-typescript.vercel.app/reset-password/${
-        user!.refreshToken
+        user!.token
       }">Log in as ${user!.username}</a>`;
       const data = {
         to: email,
