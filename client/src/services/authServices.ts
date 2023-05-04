@@ -41,7 +41,7 @@ const loginFacebookUser = async (data: UserLoginFaceBook) => {
 const resetPassword = async (data: IResetPassword) => {
   const response = await axios.post(`${BASE_URL}/auth/reset-password/`, data);
   if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data.accessToken));
+    localStorage.setItem("user", JSON.stringify(response.data));
   }
   return response.data;
 };
@@ -70,6 +70,9 @@ const logout = async () => {
 };
 const editUser = async (user: UserEdit) => {
   const response = await axios.put(`${BASE_URL}/auth`, user, config());
+  if (response.data) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+  }
 
   return response.data;
 };

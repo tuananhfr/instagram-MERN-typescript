@@ -16,6 +16,7 @@ import { deleteImgPost, uploadImgPost } from "../redux/features/uploadImgSlice";
 import { createPost } from "../redux/features/postSlice";
 import { createNotification } from "../redux/features/notificationSlice";
 import Load from "../images/loading.gif";
+import { setCreatePost } from "../redux/features/authSlice";
 
 let schema = yup.object().shape({
   content: yup.string().required("Content is Required"),
@@ -77,6 +78,7 @@ const CreatePost: React.FC = () => {
       dispatch(createPost({ ...values, images })).then((response) => {
         // Get the created comment from the server response
         const newPost = response.payload;
+        dispatch(setCreatePost(newPost._id));
 
         dispatch(
           createNotification({

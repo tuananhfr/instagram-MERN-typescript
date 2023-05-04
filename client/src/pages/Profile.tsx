@@ -39,8 +39,8 @@ const Profile: React.FC = () => {
     if (username !== auth.user!.username) {
       dispatch(getUser(username));
     }
-    dispatch(getUserPost(username));
-  }, [auth.user, dispatch, username]);
+    isPosts && dispatch(getUserPost(username));
+  }, [auth.user, dispatch, isPosts, username]);
 
   const handleChangeSaved = async () => {
     if (username) {

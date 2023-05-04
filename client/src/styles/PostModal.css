@@ -18,6 +18,9 @@
 .post-modal-post {
   overflow-y: scroll;
 }
+.post-modal-post::-webkit-scrollbar {
+  display: none;
+}
 .post-modal-btn {
   background-color: white;
   color: #3696f9;

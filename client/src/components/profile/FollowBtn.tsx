@@ -33,13 +33,14 @@ const FollowBtn: React.FC<FollowBtnProps> = ({ user }) => {
     if (followed === false) {
       setFollowed(true);
       dispatch(follow(id)).then((response) => {
-        socket.data!.emit("unFollowUser", {
+        socket.data!.emit("followUser", {
           _id: response.payload._id,
           username: response.payload.username,
           fullname: response.payload.fullname,
           avatar: response.payload.avatar,
           followers: response.payload.followers,
           following: response.payload.following,
+          to: id,
         });
         dispatch(
           setFollowerUser({
@@ -51,14 +52,6 @@ const FollowBtn: React.FC<FollowBtnProps> = ({ user }) => {
             following: response.payload.following,
           })
         );
-        socket.data!.emit("followUser", {
-          _id: response.payload._id,
-          username: response.payload.username,
-          fullname: response.payload.fullname,
-          avatar: response.payload.avatar,
-          followers: response.payload.followers,
-          following: response.payload.following,
-        });
       });
       dispatch(
         createNotification({
@@ -74,9 +67,16 @@ const FollowBtn: React.FC<FollowBtnProps> = ({ user }) => {
       });
     } else {
       setFollowed(false);
-      dispatch(unFollow(id));
-      dispatch(deleteNotification(id)).then((response) => {
-        socket.data!.emit("deleteNotify", response.payload);
+      dispatch(unFollow(id)).then((response) => {
+        socket.data!.emit("unFollowUser", {
+          _id: response.payload._id,
+          username: response.payload.username,
+          fullname: response.payload.fullname,
+          avatar: response.payload.avatar,
+          followers: response.payload.followers,
+          following: response.payload.following,
+          to: id,
+        });
         dispatch(
           setUnFollowerUser({
             _id: response.payload._id,
@@ -87,6 +87,9 @@ const FollowBtn: React.FC<FollowBtnProps> = ({ user }) => {
             following: response.payload.following,
           })
         );
+      });
+      dispatch(deleteNotification(id)).then((response) => {
+        socket.data!.emit("deleteNotify", response.payload);
       });
     }
   };

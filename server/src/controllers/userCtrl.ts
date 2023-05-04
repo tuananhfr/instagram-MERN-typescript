@@ -70,7 +70,7 @@ const followUser = asyncHandler(
       if (user.length > 0)
         res.status(500).json({ msg: "You followed this user." });
 
-      const newUser = await User.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { _id: req.params.id },
         {
           $push: { followers: req.user!._id },
@@ -78,13 +78,18 @@ const followUser = asyncHandler(
         { new: true }
       );
 
-      await User.findOneAndUpdate(
+      const newUser = await User.findOneAndUpdate(
         { _id: req.user!._id },
         {
           $push: { following: req.params.id },
         },
         { new: true }
-      );
+      )
+        .select("-password")
+        .populate(
+          "followers following",
+          "avatar username fullname followers following"
+        );
       res.json(newUser);
     } catch (err: any) {
       throw new Error(err);
@@ -94,7 +99,7 @@ const followUser = asyncHandler(
 const unfollowUser = asyncHandler(
   async (req: IReqAuth, res: Response): Promise<void> => {
     try {
-      const newUser = await User.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { _id: req.params.id },
         {
           $pull: { followers: req.user!._id },
@@ -102,13 +107,18 @@ const unfollowUser = asyncHandler(
         { new: true }
       );
 
-      await User.findOneAndUpdate(
+      const newUser = await User.findOneAndUpdate(
         { _id: req.user!._id },
         {
           $pull: { following: req.params.id },
         },
         { new: true }
-      );
+      )
+        .select("-password")
+        .populate(
+          "followers following",
+          "avatar username fullname followers following"
+        );
 
       res.json(newUser);
     } catch (err: any) {

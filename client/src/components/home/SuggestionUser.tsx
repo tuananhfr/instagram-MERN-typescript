@@ -49,6 +49,7 @@ const SuggestionUser = () => {
         avatar: response.payload.avatar,
         followers: response.payload.followers,
         following: response.payload.following,
+        to: id,
       });
     });
     dispatch(
@@ -65,7 +66,17 @@ const SuggestionUser = () => {
     });
   };
   const handleUnFollow = (id: string) => {
-    dispatch(unFollow(id));
+    dispatch(unFollow(id)).then((response) => {
+      socket.data!.emit("unFollowUser", {
+        _id: response.payload._id,
+        username: response.payload.username,
+        fullname: response.payload.fullname,
+        avatar: response.payload.avatar,
+        followers: response.payload.followers,
+        following: response.payload.following,
+        to: id,
+      });
+    });
     dispatch(deleteNotification(id)).then((response) => {
       socket.data!.emit("deleteNotify", response.payload);
     });

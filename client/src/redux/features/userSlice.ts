@@ -21,26 +21,6 @@ export const getUser = createAsyncThunk(
   }
 );
 
-export const followUser = createAsyncThunk(
-  "user/follow-a-user",
-  async (id: string, thunkAPI) => {
-    try {
-      return await userService.followUser(id);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-export const unFollowUser = createAsyncThunk(
-  "user/unfollow-a-user",
-  async (id: string, thunkAPI) => {
-    try {
-      return await userService.unFollowUser(id);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
 export const savePost = createAsyncThunk(
   "user/save-a-post",
   async (id: string, thunkAPI) => {
@@ -93,38 +73,6 @@ export const userSlice = createSlice({
         state.message = "user/get-a-user success";
       })
       .addCase(getUser.rejected, (state, action) => {
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.error.message ?? "An error occurred.";
-        state.isLoading = false;
-      })
-      .addCase(followUser.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(followUser.fulfilled, (state, action: PayloadAction<User>) => {
-        state.isError = false;
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.data = action.payload;
-        state.message = "success";
-      })
-      .addCase(followUser.rejected, (state, action) => {
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.error.message ?? "An error occurred.";
-        state.isLoading = false;
-      })
-      .addCase(unFollowUser.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(unFollowUser.fulfilled, (state, action: PayloadAction<User>) => {
-        state.isError = false;
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.data = action.payload;
-        state.message = "success";
-      })
-      .addCase(unFollowUser.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error.message ?? "An error occurred.";

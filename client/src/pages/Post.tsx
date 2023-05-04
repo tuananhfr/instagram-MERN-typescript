@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getUser } from "../redux/features/userSlice";
 import { getUserPost } from "../redux/features/postSlice";
 
@@ -242,6 +242,7 @@ const Post: React.FC = () => {
         avatar: response.payload.avatar,
         followers: response.payload.followers,
         following: response.payload.following,
+        to: id,
       });
       if (id === user.data!._id) {
         dispatch(
@@ -273,6 +274,15 @@ const Post: React.FC = () => {
   const handleUnFollow = (id: string) => {
     dispatch(unFollow(id)).then((response) => {
       if (id === user.data!._id) {
+        socket.data!.emit("unFollowUser", {
+          _id: response.payload._id,
+          username: response.payload.username,
+          fullname: response.payload.fullname,
+          avatar: response.payload.avatar,
+          followers: response.payload.followers,
+          following: response.payload.following,
+          to: id,
+        });
         dispatch(
           setUnFollowerUser({
             _id: response.payload._id,
@@ -288,7 +298,6 @@ const Post: React.FC = () => {
     dispatch(deleteNotification(id)).then((response) => {
       socket.data!.emit("deleteNotify", response.payload);
     });
-    socket.data!.emit("unFollowUser", id);
   };
 
   return (
@@ -325,14 +334,19 @@ const Post: React.FC = () => {
                   borderBottom: "1px solid  #dbdbdb",
                 }}
               >
-                <img
-                  className="user-image-wrapper home-post-avatar"
-                  src={filteredPost!.user.avatar}
-                  alt={filteredPost!.user.username}
-                />
-                <span className="post-modal-username home-post-text mt-2 ms-3">
+                <Link to={`/${filteredPost!.user.username}`}>
+                  <img
+                    className="user-image-wrapper home-post-avatar"
+                    src={filteredPost!.user.avatar}
+                    alt={filteredPost!.user.username}
+                  />
+                </Link>
+                <Link
+                  to={`/${filteredPost!.user.username}`}
+                  className="post-modal-username home-post-text mt-2 ms-3"
+                >
                   {filteredPost!.user.username}
-                </span>
+                </Link>
 
                 <div
                   className="dropdown cur-point position-absolute mt-1 me-3"
@@ -416,19 +430,24 @@ const Post: React.FC = () => {
               </div>
               <div
                 className="mt-3 ps-3 pb-3 post-modal-post"
-                style={{ height: "70%", borderBottom: "1px solid  #dbdbdb" }}
+                style={{ height: "calc(100% - 13.275rem)" }}
               >
                 <div className="d-flex ">
-                  <img
-                    className="user-image-wrapper home-post-avatar me-3"
-                    src={filteredPost!.user.avatar}
-                    alt={filteredPost!.user.username}
-                  />
+                  <Link to={`/${filteredPost!.user.username}`}>
+                    <img
+                      className="user-image-wrapper home-post-avatar me-3"
+                      src={filteredPost!.user.avatar}
+                      alt={filteredPost!.user.username}
+                    />
+                  </Link>
                   <div>
                     <div className="d-inline word-wrap absolute-center">
-                      <span className="post-modal-username home-post-text ">
+                      <Link
+                        to={`/${filteredPost!.user.username}`}
+                        className="post-modal-username home-post-text "
+                      >
                         {filteredPost!.user.username}
-                      </span>{" "}
+                      </Link>{" "}
                       <span>{filteredPost!.content}</span>
                     </div>
                     <div className="time mt-1">
@@ -441,8 +460,13 @@ const Post: React.FC = () => {
                 ))}
               </div>
               <div
-                className="ps-3 pb-3"
-                style={{ borderBottom: "1px solid  #dbdbdb" }}
+                className="ps-3 pb-3 bg-white"
+                style={{
+                  borderTop: "1px solid  #dbdbdb",
+                  position: "absolute",
+                  bottom: "2rem",
+                  width: "35%",
+                }}
               >
                 <div className="d-flex position-relative">
                   <span onClick={() => handleLike(filteredPost!._id)}>

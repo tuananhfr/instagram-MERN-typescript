@@ -42,7 +42,11 @@ import {
   createNotification,
   deleteNotification,
 } from "../redux/features/notificationSlice";
-import { getTimesToWeekAgoAndGetTimesString } from "../utils/Times";
+import {
+  getTimesToWeekAgoAndGetTimesString,
+  getTimesToWeekAgoString,
+} from "../utils/Times";
+import { Link } from "react-router-dom";
 
 let schema = yup.object().shape({
   content: yup.string().required("Content is Required"),
@@ -214,6 +218,7 @@ const PostModal: React.FC = () => {
         avatar: response.payload.avatar,
         followers: response.payload.followers,
         following: response.payload.following,
+        to: id,
       });
       if (id === user.data!._id) {
         dispatch(
@@ -251,6 +256,7 @@ const PostModal: React.FC = () => {
         avatar: response.payload.avatar,
         followers: response.payload.followers,
         following: response.payload.following,
+        to: id,
       });
       if (id === user.data!._id) {
         dispatch(
@@ -317,14 +323,23 @@ const PostModal: React.FC = () => {
                   borderBottom: "1px solid  #dbdbdb",
                 }}
               >
-                <img
-                  className="user-image-wrapper home-post-avatar"
-                  src={filteredPost!.user.avatar}
-                  alt={filteredPost!.user.username}
-                />
-                <span className="post-modal-username home-post-text mt-2 ms-3">
+                <Link
+                  to={`/${filteredPost!.user.username}`}
+                  onClick={() => dispatch(setIsPostGlobalState())}
+                >
+                  <img
+                    className="user-image-wrapper home-post-avatar"
+                    src={filteredPost!.user.avatar}
+                    alt={filteredPost!.user.username}
+                  />
+                </Link>
+                <Link
+                  to={`/${filteredPost!.user.username}`}
+                  onClick={() => dispatch(setIsPostGlobalState())}
+                  className="post-modal-username home-post-text mt-2 ms-3"
+                >
                   {filteredPost!.user.username}
-                </span>
+                </Link>
                 <div
                   className="dropdown cur-point position-absolute mt-1 me-3"
                   style={{ right: 0, top: 0 }}
@@ -407,20 +422,31 @@ const PostModal: React.FC = () => {
               </div>
               <div
                 className="mt-3 ps-3 pb-3 post-modal-post"
-                style={{ height: "70%", borderBottom: "1px solid  #dbdbdb" }}
+                style={{ height: "calc(100% - 13.275rem)" }}
               >
                 <div className="d-flex">
-                  <img
-                    className="user-image-wrapper home-post-avatar"
-                    src={filteredPost!.user.avatar}
-                    alt={filteredPost!.user.username}
-                  />
+                  <Link
+                    to={`/${filteredPost!.user.username}`}
+                    onClick={() => dispatch(setIsPostGlobalState())}
+                  >
+                    <img
+                      className="user-image-wrapper home-post-avatar"
+                      src={filteredPost!.user.avatar}
+                      alt={filteredPost!.user.username}
+                    />
+                  </Link>
                   <div className=" ms-3">
-                    <span className="post-modal-username home-post-text ">
+                    <Link
+                      to={`/${filteredPost!.user.username}`}
+                      onClick={() => dispatch(setIsPostGlobalState())}
+                      className="post-modal-username home-post-text "
+                    >
                       {filteredPost!.user.username}
-                    </span>{" "}
+                    </Link>{" "}
                     <span>{filteredPost!.content}</span>
-                    <div className="time">aaa</div>
+                    <div className="time">
+                      {getTimesToWeekAgoString(filteredPost!.createdAt)}
+                    </div>
                   </div>
                 </div>
                 {filteredComments!.map((comment) => (
@@ -428,8 +454,13 @@ const PostModal: React.FC = () => {
                 ))}
               </div>
               <div
-                className="ps-3 pb-3"
-                style={{ borderBottom: "1px solid  #dbdbdb" }}
+                className="ps-3 pb-3 bg-white"
+                style={{
+                  borderTop: "1px solid  #dbdbdb",
+                  position: "absolute",
+                  bottom: "2rem",
+                  width: "35%",
+                }}
               >
                 <div className="d-flex position-relative">
                   <span onClick={() => handleLike(filteredPost!._id)}>
@@ -455,7 +486,7 @@ const PostModal: React.FC = () => {
                     )}
                   </div>
                 </div>
-                <div className="mt-3 home-post-text">
+                <div className="mt-1 home-post-text">
                   {filteredPost!.likes.length} likes
                 </div>
                 <div className="time">

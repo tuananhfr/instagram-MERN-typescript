@@ -209,6 +209,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         avatar: response.payload.avatar,
         followers: response.payload.followers,
         following: response.payload.following,
+        to: id,
       });
     });
     dispatch(
@@ -235,6 +236,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         avatar: response.payload.avatar,
         followers: response.payload.followers,
         following: response.payload.following,
+        to: id,
       });
     });
     dispatch(deleteNotification(id)).then((response) => {
@@ -376,7 +378,9 @@ const Post: React.FC<PostProps> = ({ post }) => {
       <div className="mt-3 home-post-text">{post.likes.length} likes</div>
 
       <div className="mt-2">
-        <span className="home-post-text mt-2">{post.user.username}</span>{" "}
+        <Link to={`/${post.user.username}`} className="home-post-text mt-2">
+          {post.user.username}
+        </Link>{" "}
         {post.content}
       </div>
       {lastComment && (
@@ -390,9 +394,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
             </div>
           ) : null}
           <div className="home-post-comment">
-            <span className="home-post-text mt-2">
+            <Link
+              to={`/${lastComment.user.username}`}
+              className="home-post-text mt-2"
+            >
               {lastComment.user.username}
-            </span>{" "}
+            </Link>{" "}
             {lastComment.content}
             <span
               className="home-post-comment-icon"

@@ -25,13 +25,14 @@ import {
 } from "../../redux/features/GlobalStateSlice";
 import ReplyComment from "../ReplyComment";
 import { Link } from "react-router-dom";
-import { followUser, unFollowUser } from "../../redux/features/userSlice";
+import { follow, unFollow } from "../../redux/features/authSlice";
 import {
   createNotification,
   deleteNotification,
 } from "../../redux/features/notificationSlice";
 import { getTimesToWeekAgoString } from "../../utils/Times";
 import { CommentProps } from "../../utils/interface";
+import { setFollowerUser } from "../../redux/features/userSlice";
 
 let schema = yup.object().shape({
   content: yup.string().required("Content is Required"),
@@ -45,7 +46,12 @@ const Comment: React.FC<CommentProps> = ({ cmt }) => {
   const textareaRef = createRef<HTMLTextAreaElement>();
 
   const { auth } = useSelector((state: RootState) => state);
+  const { user } = useSelector((state: RootState) => state);
+
   const { post } = useSelector((state: RootState) => state);
+
+  const { globalState } = useSelector((state: RootState) => state);
+  const { isPostGlobalState } = globalState;
 
   const { comment } = useSelector((state: RootState) => state);
   const { socket } = useSelector((state: RootState) => state);
@@ -145,7 +151,29 @@ const Comment: React.FC<CommentProps> = ({ cmt }) => {
   };
 
   const handleFollow = (id: string) => {
-    dispatch(followUser(id));
+    dispatch(follow(id)).then((response) => {
+      socket.data!.emit("followUser", {
+        _id: response.payload._id,
+        username: response.payload.username,
+        fullname: response.payload.fullname,
+        avatar: response.payload.avatar,
+        followers: response.payload.followers,
+        following: response.payload.following,
+        to: id,
+      });
+      if (id === user.data!._id) {
+        dispatch(
+          setFollowerUser({
+            _id: response.payload._id,
+            username: response.payload.username,
+            fullname: response.payload.fullname,
+            avatar: response.payload.avatar,
+            followers: response.payload.followers,
+            following: response.payload.following,
+          })
+        );
+      }
+    });
     dispatch(
       createNotification({
         id: id,
@@ -160,7 +188,29 @@ const Comment: React.FC<CommentProps> = ({ cmt }) => {
     });
   };
   const handleUnFollow = (id: string) => {
-    dispatch(unFollowUser(id));
+    dispatch(unFollow(id)).then((response) => {
+      socket.data!.emit("followUser", {
+        _id: response.payload._id,
+        username: response.payload.username,
+        fullname: response.payload.fullname,
+        avatar: response.payload.avatar,
+        followers: response.payload.followers,
+        following: response.payload.following,
+        to: id,
+      });
+      if (id === user.data!._id) {
+        dispatch(
+          setFollowerUser({
+            _id: response.payload._id,
+            username: response.payload.username,
+            fullname: response.payload.fullname,
+            avatar: response.payload.avatar,
+            followers: response.payload.followers,
+            following: response.payload.following,
+          })
+        );
+      }
+    });
     dispatch(deleteNotification(id)).then((response) => {
       socket.data!.emit("deleteNotify", response.payload);
     });
@@ -170,20 +220,29 @@ const Comment: React.FC<CommentProps> = ({ cmt }) => {
 
   const getUsername = cmt.content.split(/(@\w+\b)/g);
 
+  const handleCloseModal = () => {
+    if (isPostGlobalState) {
+      dispatch(setIsPostGlobalState());
+    }
+  };
+
   return (
     <>
       {!cmt.reply && (
         <div className="w-100">
           <div className="mt-3 home-post-comment d-flex w-100 ">
-            <img
-              className="user-image-wrapper home-post-avatar"
-              src={cmt!.user.avatar}
-              alt={cmt!.user.username}
-            />
+            <Link to={`/${cmt!.user.username}`} onClick={handleCloseModal}>
+              <img
+                className="user-image-wrapper home-post-avatar"
+                src={cmt!.user.avatar}
+                alt={cmt!.user.username}
+              />
+            </Link>
             <div className="ms-3 flex-column w-100 ">
               <div className="d-inline word-wrap position-relative pe-5">
                 <Link
                   to={`/${cmt!.user.username}`}
+                  onClick={handleCloseModal}
                   className="post-modal-username home-post-text me-1"
                 >
                   {cmt!.user.username}

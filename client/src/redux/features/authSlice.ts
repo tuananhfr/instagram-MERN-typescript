@@ -169,6 +169,13 @@ export const forgotPassword = createAsyncThunk(
 export const setNullUser = createAsyncThunk("auth/set-null", async () => {
   return null;
 });
+
+export const setCreatePost = createAsyncThunk(
+  "auth/set-create-post",
+  async (id: string) => {
+    return id;
+  }
+);
 export const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
@@ -325,18 +332,12 @@ export const authSlice = createSlice({
       .addCase(follow.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(follow.fulfilled, (state, action: PayloadAction<IUser>) => {
+      .addCase(follow.fulfilled, (state, action: PayloadAction<User>) => {
         state.isError = false;
         state.isLoading = false;
         state.isSuccess = true;
-        state.user!.following.push({
-          _id: action.payload._id,
-          fullname: action.payload.fullname,
-          username: action.payload.username,
-          avatar: action.payload.avatar,
-          followers: action.payload.followers,
-          following: action.payload.following,
-        });
+        state.user! = action.payload;
+
         state.message = "success";
       })
       .addCase(follow.rejected, (state, action) => {
@@ -352,9 +353,7 @@ export const authSlice = createSlice({
         state.isError = false;
         state.isLoading = false;
         state.isSuccess = true;
-        state.user!.following = state.user!.following.filter(
-          (item) => item._id !== action.payload._id
-        );
+        state.user! = action.payload;
         state.message = "success";
       })
       .addCase(unFollow.rejected, (state, action) => {
@@ -373,6 +372,13 @@ export const authSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.user!.followers.push(action.payload);
+          const userString = localStorage.getItem("user");
+
+          const user = JSON.parse(userString!);
+
+          user.followers.push(action.payload);
+
+          localStorage.setItem("user", JSON.stringify(user));
           state.message = "success";
         }
       )
@@ -394,6 +400,15 @@ export const authSlice = createSlice({
           state.user!.followers = state.user!.followers.filter(
             (item) => item._id !== action.payload._id
           );
+          const userString = localStorage.getItem("user");
+
+          const user = JSON.parse(userString!);
+
+          user!.followers = user!.followers.filter(
+            (item: User) => item._id !== action.payload._id
+          );
+
+          localStorage.setItem("user", JSON.stringify(user));
           state.message = "success";
         }
       )
@@ -433,6 +448,31 @@ export const authSlice = createSlice({
         state.message = "success";
       })
       .addCase(setNullUser.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error.message ?? "An error occurred.";
+        state.isLoading = false;
+      })
+      .addCase(setCreatePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(
+        setCreatePost.fulfilled,
+        (state, action: PayloadAction<string>) => {
+          state.isError = false;
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.user!.post.push(action.payload);
+          const userString = localStorage.getItem("user");
+          const user = JSON.parse(userString!);
+
+          // Update the "token" property of the user object
+          user.post.push(action.payload);
+          localStorage.setItem("user", JSON.stringify(user));
+          state.message = "success";
+        }
+      )
+      .addCase(setCreatePost.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error.message ?? "An error occurred.";

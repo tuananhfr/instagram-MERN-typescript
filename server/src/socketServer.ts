@@ -138,12 +138,15 @@ const SocketServer = (socket: Socket) => {
   });
   // Follow
   socket.on("followUser", (data) => {
-    const user = users.find((user) => user.id === data._id);
+    const user = users.find((user) => user.id === data.to);
+    delete data.to;
+
     user && socket.to(`${user.socketId}`).emit("followUserToClient", data);
   });
   // UnFollow
   socket.on("unFollowUser", (data) => {
-    const user = users.find((user) => user.id === data._id);
+    const user = users.find((user) => user.id === data.to);
+    delete data.to;
     user && socket.to(`${user.socketId}`).emit("unFollowUserToClient", data);
   });
   // create a Notify

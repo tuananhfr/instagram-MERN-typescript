@@ -1,6 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "./../utils/baseUrl";
 import { config } from "../utils/axiosConfig";
+import { User } from "../utils/interface";
 
 const search = async (search: string) => {
   const response = await axios.get(
@@ -27,6 +28,9 @@ const followUser = async (id: string) => {
     null,
     config()
   );
+  if (response.data) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+  }
 
   return response.data;
 };
@@ -37,6 +41,10 @@ const unFollowUser = async (id: string) => {
     null,
     config()
   );
+
+  if (response.data) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+  }
 
   return response.data;
 };

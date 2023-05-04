@@ -61,8 +61,6 @@ const SocketClient = () => {
   // joinUser
   useEffect(() => {
     if (socket.data) {
-      const timestamp = new Date();
-
       const newArr: any = [];
       conversation.data!.forEach((item) => {
         item.recipients.forEach((cv) => {

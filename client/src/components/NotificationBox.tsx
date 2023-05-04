@@ -36,6 +36,7 @@ const NotificationBox = () => {
         avatar: response.payload.avatar,
         followers: response.payload.followers,
         following: response.payload.following,
+        to: id,
       });
     });
     dispatch(
@@ -62,6 +63,7 @@ const NotificationBox = () => {
         avatar: response.payload.avatar,
         followers: response.payload.followers,
         following: response.payload.following,
+        to: id,
       });
     });
     dispatch(deleteNotification(id)).then((response) => {
