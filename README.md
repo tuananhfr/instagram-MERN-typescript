@@ -2,6 +2,8 @@
 
 This is a full-stack social media application that allows users to create accounts, log in, and use various features such as uploading photos, following other users, liking and commenting on photos, sending messages, and video calling.
 
+## Author: [Tuan Anh PHAM](https://github.com/tuananhfr)
+
 ## Features
 
 - Sign up: new users can create accounts by providing their full name,username, email address, and password.
