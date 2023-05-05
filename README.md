@@ -32,7 +32,7 @@ This is a full-stack social media application that allows users to create accoun
 
 ## Installation
 
-1. Clone the repository: git clone [https://github.com/yourusername/social-media-app.git](https://github.com/yourusername/social-media-app.git)
+1. Clone the repository: `git clone https://github.com/tuananhfr/instagram-MERN-typescript.git`
 
 2. Navigate to the server directory: `cd server`
 
