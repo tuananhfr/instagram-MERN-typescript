@@ -473,7 +473,6 @@ export const authSlice = createSlice({
           const userString = localStorage.getItem("user");
           const user = JSON.parse(userString!);
 
-          // Update the "token" property of the user object
           user.post.push(action.payload);
           localStorage.setItem("user", JSON.stringify(user));
           state.message = "success";
@@ -498,7 +497,6 @@ export const authSlice = createSlice({
           const userString = localStorage.getItem("user");
           const user = JSON.parse(userString!);
 
-          // Update the "token" property of the user object
           user.post.push(action.payload);
           user!.post = user!.post.filter(
             (item: User) => item._id !== action.payload
