@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import path from "path";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
@@ -20,7 +21,14 @@ import SocketServer from "./socketServer";
 import { ExpressPeerServer } from "peer";
 
 const app = express();
-dotenv.config();
+const result = dotenv.config({
+  path: path.join(__dirname, "..", ".env.production"),
+});
+process.env = {
+  ...process.env,
+  ...result.parsed,
+};
+
 const PORT: string | number = process.env.PORT || 4000;
 
 const httpServer = createServer(app);
