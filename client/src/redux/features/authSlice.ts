@@ -176,6 +176,13 @@ export const setCreatePost = createAsyncThunk(
     return id;
   }
 );
+
+export const setDeletePost = createAsyncThunk(
+  "auth/set-delete-post",
+  async (id: string) => {
+    return id;
+  }
+);
 export const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
@@ -473,6 +480,34 @@ export const authSlice = createSlice({
         }
       )
       .addCase(setCreatePost.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error.message ?? "An error occurred.";
+        state.isLoading = false;
+      })
+      .addCase(setDeletePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(
+        setDeletePost.fulfilled,
+        (state, action: PayloadAction<string>) => {
+          state.isError = false;
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.user!.post.push(action.payload);
+          const userString = localStorage.getItem("user");
+          const user = JSON.parse(userString!);
+
+          // Update the "token" property of the user object
+          user.post.push(action.payload);
+          user!.post = user!.post.filter(
+            (item: User) => item._id !== action.payload
+          );
+          localStorage.setItem("user", JSON.stringify(user));
+          state.message = "success";
+        }
+      )
+      .addCase(setDeletePost.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error.message ?? "An error occurred.";
